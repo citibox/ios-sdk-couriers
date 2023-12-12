@@ -71,7 +71,10 @@ internal struct CourierWebAppView: View {
             params += "&" + Pairs.dimensions(dimensions).pair
         }
 
-        url = "\(host)/?\(params)"
+#warning("TESTING")
+        //url = "\(host)/?\(params)"
+        url = "https://couriers.citibox.com/courier"
+
     }
     
     var body: some View {
