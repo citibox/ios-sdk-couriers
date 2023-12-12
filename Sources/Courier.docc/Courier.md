@@ -36,13 +36,13 @@ You are required to provide certain input parameters and you will be able to rec
 
 ### Entry params
 
-| Param            | Type    | Description                                                                         |  
-|------------------|---------|-------------------------------------------------------------------------------------|  
-| `accessToken`    | String  | Token that identifies you as a courier                                              |  
-| `tracking`       | String  | Tracking code                                                                       |  
-| `isPhoneHashed`  | Boolean | Tells that the phone number will be hashed instead of using the actual phone number |  
-| `recipientPhone` | String  | The recipient's phone                                                               |  
-| `dimensions`     | String? | Optional param to tell how big the parcel is                                        |  
+| Param            | Type    | Requirement | Description                                                                         |  
+|------------------|---------|-------------|-------------------------------------------------------------------------------------|  
+| `accessToken`    | String  | Mandatory | Access token provided via oauth for Citibox server to the Carrier server. Important: The carrier app should never contact the citibox server directly.                                              |  
+| `tracking`       | String  | Mandatory | Scanned barcode or QR code of the package to be delivered.                                                                       |  
+| `recipientHash`  | String [Format SHA-256](https://es.wikipedia.org/wiki/SHA-2) | | Recipient mobile phone number hashed by SHA-256 algorithm  |  
+| `recipientPhone` | String [Format E.164] (https://en.wikipedia.org/wiki/E.164)| | Recipient mobile phone number.                                                               |  
+| `dimensions`     | String? | Optional | Package height , width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75                                        |  
 
 ### Results
 It's represented by the object `DeliveryResult` as a `sealed class` that morph into the different states.
@@ -99,7 +99,7 @@ When there is an error in the data preventing the delivery, you'll receive an in
 | `wrong_location`                  | The location has a problem, please contact Citibox Team                                                                |
 | `arguments_missing`               | Some of the arguments are missing, check them                                                                          |
 | `data_not_received`               |                                                                                                                        |
-| `launching_problem`               | There were a problem launching the Courier app and the WebView, check the phone Google Play Services and WebViewClient |
+| `launching_problem`               | There were a problem launching the Courier app and the WebView |
 
 ## Examples
 
