@@ -12,30 +12,41 @@ import SwiftUI
 import WebKit
 
 #if os(iOS)
+internal struct WebViewScriptMessage {
+    var handler: String
+    var object: Any
+}
+
 internal struct WebView: UIViewRepresentable {
     @Binding var title: String
     var url: URL?
     var html: String?
     var baseURL: URL?
+    var scriptMessageHandlers: [String]
     var loadStatusChanged: ((Bool, Error?) -> Void)?
     var loadingProgress: ((Double) -> Void)?
+    var receivedMessage: ((WebViewScriptMessage) -> Void)?
 
     private let webView = WKWebView()
     
     internal init(
-        title: Binding<String>,
+        title: Binding<String> = .constant(""),
         url: URL? = nil,
         html: String? = nil,
         baseURL: URL? = nil,
+        scriptMessageHandlers: [String] = [],
         loadStatusChanged: ((Bool, Error?) -> Void)? = nil,
-        loadingProgress: ((Double) -> Void)? = nil
+        loadingProgress: ((Double) -> Void)? = nil,
+        receivedMessage: ((WebViewScriptMessage) -> Void)? = nil
     ) {
         self._title = title
         self.url = url
         self.html = html
         self.baseURL = baseURL
+        self.scriptMessageHandlers = scriptMessageHandlers
         self.loadStatusChanged = loadStatusChanged
         self.loadingProgress = loadingProgress
+        self.receivedMessage = receivedMessage
     }
 
     func makeCoordinator() -> WebView.Coordinator {
@@ -50,6 +61,9 @@ internal struct WebView: UIViewRepresentable {
         }
 
         webView.navigationDelegate = context.coordinator
+        for handler in scriptMessageHandlers {
+            webView.configuration.userContentController.add(context.coordinator, name: handler)
+        }
         return webView
     }
 
@@ -58,7 +72,7 @@ internal struct WebView: UIViewRepresentable {
         // Note that this method will be called A LOT
     }
 
-    class Coordinator: NSObject, WKNavigationDelegate {
+    class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
         private let parent: WebView
         private var progressObserver: NSKeyValueObservation?
 
@@ -91,6 +105,14 @@ internal struct WebView: UIViewRepresentable {
             parent.loadStatusChanged?(false, error)
         }
 
+        // MARK: - WKScriptMessageHandler
+        
+        func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+            guard parent.scriptMessageHandlers.contains(message.name) else { return }
+            print(message.body)
+            let scriptMessage = WebViewScriptMessage(handler: message.name, object: message.body)
+            parent.receivedMessage?(scriptMessage)
+        }
     }
 }
 #endif

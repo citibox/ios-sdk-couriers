@@ -78,13 +78,20 @@ internal struct CourierWebAppView: View {
     }
     
     var body: some View {
-        WebView(title: .constant(""), url: URL(string: url))
+        WebView(
+            url: URL(string: url),
+            scriptMessageHandlers: [CourierWebAppView.scriptMessageHandler],
+            receivedMessage: { message in
+                print("Received Message from handler \(message.handler)\n\(message.object)")
+            }
+        )
     }
 }
 
 private extension CourierWebAppView {
     static let prodURL = "https://app.courier.citibox.com"
     static let sandboxURL = "https://app.courier.citibox-sandbox.com"
+    static let scriptMessageHandler = "jsHandler"
     
     var host: String {
         isSandbox ? CourierWebAppView.sandboxURL : CourierWebAppView.prodURL
