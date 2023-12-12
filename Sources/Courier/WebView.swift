@@ -19,7 +19,6 @@ internal struct WebView: UIViewRepresentable {
     var baseURL: URL?
     var loadStatusChanged: ((Bool, Error?) -> Void)?
     var loadingProgress: ((Double) -> Void)?
-    var isFinished: (() -> Void)?
 
     private let webView = WKWebView()
     
@@ -29,8 +28,7 @@ internal struct WebView: UIViewRepresentable {
         html: String? = nil,
         baseURL: URL? = nil,
         loadStatusChanged: ((Bool, Error?) -> Void)? = nil,
-        loadingProgress: ((Double) -> Void)? = nil,
-        isFinished: (() -> Void)? = nil
+        loadingProgress: ((Double) -> Void)? = nil
     ) {
         self._title = title
         self.url = url
@@ -38,7 +36,6 @@ internal struct WebView: UIViewRepresentable {
         self.baseURL = baseURL
         self.loadStatusChanged = loadStatusChanged
         self.loadingProgress = loadingProgress
-        self.isFinished = isFinished
     }
 
     func makeCoordinator() -> WebView.Coordinator {
@@ -46,8 +43,6 @@ internal struct WebView: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> WKWebView {
-        // var webView = WKWebView()
-
         if let url = url {
             webView.load(URLRequest(url: url))
         } else if let html = html {
@@ -94,21 +89,6 @@ internal struct WebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             parent.loadStatusChanged?(false, error)
-        }
-
-        func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-
-            guard let comps = navigationAction.request.url?.pathComponents else {
-                decisionHandler(.allow)
-                return
-            }
-            let shouldFinish = comps.contains(where: { $0 == "typeform" }) && comps.contains(where: { $0 == "close" })
-            guard shouldFinish else {
-                decisionHandler(.allow)
-                return
-            }
-            decisionHandler(.cancel)
-            parent.isFinished?()
         }
 
     }

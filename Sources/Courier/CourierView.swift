@@ -5,22 +5,6 @@
 //  Created by Marcos Alba on 6/7/23.
 //
 
-/*
- # ``Courier`` SDK
-
- An iOS SDK to be able to perform deliveries through Citibox.
-
- ## Overview
-
- Citibox is a software platform with the vision of solving the issue receiving parcel and return packages at home.
-
- Our first iteration is to deploy an open network of smart parcel boxes installed inside residential buildings where customers wants to receive their parcels.
-
- ![Citibox](citibox.png)
-
- Thank to the information that Citibox has, the carrier can deliver parcels with an astonishing experience with our custom user flow that has a 85/100 NPS score.
-*/
-
 import SwiftUI
 
 /**
@@ -29,8 +13,10 @@ import SwiftUI
 public struct CourierView: View {
     private let accessToken: String
     private let tracking: String
-    private let recipientPhone: String
-    private let dimension: String?
+    private let recipientPhone: String?
+    private let recipientHash: String?
+    private let dimensions: String?
+    private let isSandbox: Bool
     
     
     /// Initializes the `CourierView` with the needed data.
@@ -39,16 +25,43 @@ public struct CourierView: View {
     ///   - accessToken: Mandatory. String. Access token provided via oauth for Citibox server to the Carrier server. Important: The carrier app should never contact the citibox server directly.
     ///   - tracking: Mandatory. String. Scanned barcode or QR code of the package to be delivered.
     ///   - recipientPhone: Mandatory. String. Recipient mobile phone number following standard [E.164](https://en.wikipedia.org/wiki/E.164)
-    ///   - dimension: Optional. String. Package height, width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75
-    public init(accessToken: String, tracking: String, recipientPhone: String, dimension: String? = nil) {
+    ///   - dimensions: Optional. String. Package height, width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75
+    ///   - sandbox: Optional. Bool. Tells if using sandbox environment. False by default.
+    public init(accessToken: String, tracking: String, recipientPhone: String, dimensions: String? = nil, sandbox: Bool = false) {
         self.accessToken = accessToken
         self.tracking = tracking
         self.recipientPhone = recipientPhone
-        self.dimension = dimension
+        self.recipientHash = nil
+        self.dimensions = dimensions
+        self.isSandbox = sandbox
+    }
+    
+    /// Initializes the `CourierView` with the needed data.
+    ///
+    /// - Parameters:
+    ///   - accessToken: Mandatory. String. Access token provided via oauth for Citibox server to the Carrier server. Important: The carrier app should never contact the citibox server directly.
+    ///   - tracking: Mandatory. String. Scanned barcode or QR code of the package to be delivered.
+    ///   - recipientHash: Mandatory. String. Recipient mobile phone number hashed in [SHA-256 algorithm](https://es.wikipedia.org/wiki/SHA-2)
+    ///   - dimensions: Optional. String. Package height, width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75
+    ///   - sandbox: Optional. Bool. Tells if using sandbox environment. False by default.
+    public init(accessToken: String, tracking: String, recipientHash: String, dimensions: String? = nil, sandbox: Bool = false) {
+        self.accessToken = accessToken
+        self.tracking = tracking
+        self.recipientPhone = nil
+        self.recipientHash = recipientHash
+        self.dimensions = dimensions
+        self.isSandbox = sandbox
     }
     
     public var body: some View {
-        CourierWebAppView()
+        CourierWebAppView(
+            accessToken: accessToken,
+            tracking: tracking,
+            recipientPhone: recipientPhone,
+            recipientHash: recipientHash,
+            dimensions: dimensions,
+            isSandbox: isSandbox
+        )
     }
 }
 
