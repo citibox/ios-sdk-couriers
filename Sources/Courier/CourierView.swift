@@ -8,18 +8,17 @@
 import SwiftUI
 
 /**
- A Courier View to perform deliveries.
+ Parmas needed for delivery
  */
-public struct CourierView: View {
-    private let accessToken: String
-    private let tracking: String
-    private let recipientPhone: String?
-    private let recipientHash: String?
-    private let dimensions: String?
-    private let isSandbox: Bool
+public struct DeliveryParams {
+    internal let accessToken: String
+    internal let tracking: String
+    internal let recipientPhone: String?
+    internal let recipientHash: String?
+    internal let dimensions: String?
+    internal let isSandbox: Bool
     
-    
-    /// Initializes the `CourierView` with the needed data.
+    /// Initializes the `DeliveryParams` with the needed data.
     ///
     /// - Parameters:
     ///   - accessToken: Mandatory. String. Access token provided via oauth for Citibox server to the Carrier server. Important: The carrier app should never contact the citibox server directly.
@@ -36,7 +35,7 @@ public struct CourierView: View {
         self.isSandbox = sandbox
     }
     
-    /// Initializes the `CourierView` with the needed data.
+    /// Initializes the `DeliveryParams` with the needed data.
     ///
     /// - Parameters:
     ///   - accessToken: Mandatory. String. Access token provided via oauth for Citibox server to the Carrier server. Important: The carrier app should never contact the citibox server directly.
@@ -52,21 +51,31 @@ public struct CourierView: View {
         self.dimensions = dimensions
         self.isSandbox = sandbox
     }
+}
+
+/**
+ A Courier View to perform deliveries.
+ */
+public struct CourierView: View {
+    private let params: DeliveryParams
+    
+    
+    /// Initializes the `CourierView` with the needed data.
+    ///
+    /// - params: `DeliveryParams
+    
+    public init(params: DeliveryParams) {
+        self.params = params
+    }
     
     public var body: some View {
         CourierWebAppView(
-            accessToken: accessToken,
-            tracking: tracking,
-            recipientPhone: recipientPhone,
-            recipientHash: recipientHash,
-            dimensions: dimensions,
-            isSandbox: isSandbox
+            accessToken: params.accessToken,
+            tracking: params.tracking,
+            recipientPhone: params.recipientPhone,
+            recipientHash: params.recipientHash,
+            dimensions: params.dimensions,
+            isSandbox: params.isSandbox
         )
-    }
-}
-
-struct CourierView_Previews: PreviewProvider {
-    static var previews: some View {
-        CourierView(accessToken: "70K3n", tracking: "7R4CK1N6", recipientPhone: "+34666123456")
     }
 }

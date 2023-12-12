@@ -35,15 +35,13 @@ You are required to provide certain input parameters and you will be able to rec
 | Param            | Type    | Requirement | Description                                                                         |  
 |------------------|---------|-------------|-------------------------------------------------------------------------------------|  
 | `accessToken`    | String  | Mandatory | Access token provided via oauth for Citibox server to the Carrier server. Important: The carrier app should never contact the citibox server directly.                                              |  
-| `tracking`       | String  | Mandatory | Scanned barcode or QR code of the package to be delivered.                                                                       |  
-| `recipientHash`  | String [Format SHA-256](https://es.wikipedia.org/wiki/SHA-2) | Mandatory
-If `recipientPhone` is not defined | Recipient mobile phone number hashed by SHA-256 algorithm  |  
-| `recipientPhone` | String [Format E.164] (https://en.wikipedia.org/wiki/E.164)| Mandatory
-If `recipientHash` is not defined | Recipient mobile phone number.                                                               |  
-| `dimensions`     | String? | Optional | Package height, width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75                                        |  
+| `tracking`       | String  | Mandatory | Scanned barcode or QR code of the package to be delivered.                              |  
+| `recipientHash`  | String. Format [SHA-256](https://es.wikipedia.org/wiki/SHA-2) | Mandatory if `recipientPhone` is not defined | Recipient mobile phone number hashed by SHA-256 algorithm  |  
+| `recipientPhone` | String. Format [E.164] (https://en.wikipedia.org/wiki/E.164) | Mandatory if `recipientHash` is not defined | Recipient mobile phone number.  |  
+| `dimensions`     | String? | Optional | Package height, width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75  |  
 
 ### Results
-It's represented by the object `DeliveryResult` as a `sealed class` that morph into the different states.
+It's represented by the protocol `DeliveryResult` that morph into the different states.
 Those states are success, failure, cancel or error, and each state has it's own descriptors
 
 #### Success
@@ -93,7 +91,7 @@ When there is an error in the data preventing the delivery, you'll receive an in
 | `access_token_permissions_denied` | The access token belongs to an user with the wrong permissions, please contact Citibox Team                            |
 | `recipient_phone_missing`         | The recipient phone must be provided                                                                                   |
 | `duplicated_trackings`            | You've tried to make a delivery with a tracking code already used                                                      |
-| `recipient_phone_invalid`         | The recipient phone has a problem                                                                                      |
+| `recipient_phone_invalid`         | The recipient phone filed doesn't have a valid [E.164] (https://en.wikipedia.org/wiki/E.164) format                                                                                      |
 | `wrong_location`                  | The location has a problem, please contact Citibox Team                                                                |
 | `arguments_missing`               | Some of the arguments are missing, check them                                                                          |
 | `data_not_received`               |                                                                                                                        |

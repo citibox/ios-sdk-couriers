@@ -95,7 +95,7 @@ When there is an error in the data preventing the delivery, you'll receive an in
 | `access_token_permissions_denied` | The access token belongs to an user with the wrong permissions, please contact Citibox Team                            |
 | `recipient_phone_missing`         | The recipient phone must be provided                                                                                   |
 | `duplicated_trackings`            | You've tried to make a delivery with a tracking code already used                                                      |
-| `recipient_phone_invalid`         | The recipient phone has a problem                                                                                      |
+| `recipient_phone_invalid`         | The recipient phone filed doesn't have a valid [E.164] (https://en.wikipedia.org/wiki/E.164) format                                                                                     |
 | `wrong_location`                  | The location has a problem, please contact Citibox Team                                                                |
 | `arguments_missing`               | Some of the arguments are missing, check them                                                                          |
 | `data_not_received`               |                                                                                                                        |
