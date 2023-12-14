@@ -104,12 +104,13 @@ internal struct CourierWebAppView: View {
 
         let endpoint = debug ? "test-view" : "deeplink-delivery"
 #warning("TESTING!!!")
-        //url = "\(host)/deeplink-delivery/?\(params)"
+        //url = "\(host)/\(endpoint)/?\(params)"
         url = "http://localhost:8080/\(endpoint)/?\(params)"
         
     }
     
     var body: some View {
+    #if os(iOS)
         WebView(
             url: URL(string: url),
             scriptMessageHandlers: ScriptMessageHandlers.allCases.map({ $0.rawValue }),
@@ -120,6 +121,9 @@ internal struct CourierWebAppView: View {
             }
         )
         .edgesIgnoringSafeArea(.bottom)
+        #else
+        EmptyView()
+        #endif
     }
 }
 

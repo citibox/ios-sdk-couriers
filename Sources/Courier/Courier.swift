@@ -10,8 +10,9 @@ import SwiftUI
 extension View {
     /**
      Courier View Modifier
-     Presents Courier View in full screen.
      
+     Presents Courier View in full screen.
+    
      - parameters:
        - isPresented: `Binding<Bool>`. Controls wheter view is presented or not. When a result is received it is automatically dismissed.
        - params: `DeliveryParams`. Required parameters.

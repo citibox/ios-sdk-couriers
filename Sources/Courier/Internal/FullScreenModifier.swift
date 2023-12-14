@@ -13,10 +13,12 @@ struct FullScreenModifier<V: View>: ViewModifier {
 
     @ViewBuilder
     func body(content: Content) -> some View {
+        #if os(iOS)
         if #available(iOS 14.0, *) {
             content.fullScreenCover(isPresented: isPresented, content: builder)
         } else {
             content.sheet(isPresented: isPresented, content: builder)
         }
+        #endif
     }
 }

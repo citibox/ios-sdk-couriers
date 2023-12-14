@@ -1,7 +1,3 @@
-# ``Courier SDK``
-
-An iOS SDK to be able to perform deliveries through Citibox.
-
 @Metadata {
     @PageImage(
         purpose: icon, 
@@ -9,6 +5,9 @@ An iOS SDK to be able to perform deliveries through Citibox.
         alt: "The Citibox logo.")
     @PageColor(purple)
 }
+# ``Courier``
+
+An iOS SDK to be able to perform deliveries through Citibox.
 
 ## Overview
 
@@ -30,36 +29,39 @@ Add this Swift Package to your application in Xcode: `git@github.com:citibox/ios
 
 ## Usage
 
-This framework is developed in `SwiftUI`. The provided functionality comes along with a `View`.
-Then, you only need to open `CourierView()` in a new screen.
-You are required to provide certain input parameters and you will be able to receive some callback results. 
+This framework is developed in `SwiftUI`. The provided functionality comes along with a function extending the `View` protocol.
+Then, you need to add the `.courier()` modifier to your main view providing all [required parameters](#entry-params) and it will open a `CourierView` in full screen. Once process is done you will be able to receive some callback [results](#results). 
 
 ### Entry params
 
 | Param            | Type    | Requirement | Description                                                                         |  
 |------------------|---------|-------------|-------------------------------------------------------------------------------------|  
 | `accessToken`    | String  | Mandatory | Access token provided via oauth for Citibox server to the Carrier server. Important: The carrier app should never contact the citibox server directly.                                              |  
-| `tracking`       | String  | Mandatory | Scanned barcode or QR code of the package to be delivered.                                                                       |  
-| `recipientHash`  | String [Format SHA-256](https://es.wikipedia.org/wiki/SHA-2) | | Recipient mobile phone number hashed by SHA-256 algorithm  |  
-| `recipientPhone` | String [Format E.164] (https://en.wikipedia.org/wiki/E.164)| | Recipient mobile phone number.                                                               |  
+| `tracking`       | String  | Mandatory | Scanned barcode or QR code of the package to be delivered.                                                     |   
+| `recipientPhone` | String [Format E.164] (https://en.wikipedia.org/wiki/E.164) | Recipient mobile phone number.                                         |  
 | `dimensions`     | String? | Optional | Package height , width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75                                        |  
 
 ### Results
-It's represented by the object `DeliveryResult` as a `sealed class` that morph into the different states.
-Those states are success, failure, cancel or error, and each state has it's own descriptors
+There are 4 types of results:
+- [Success](#success)
+- [Failure](#failure)
+- [Cancel](#cancel)
+- [Error](#error)
+
+A result is represented by the protocol `DeliveryResult` which specializes in its own type.
 
 #### Success
-When the delivery went well, the result will give you an instance of `DeliveryResult.Success` with information about the delivery like:
+When the delivery went well, the result will give you an instance of `DeliveryResultSuccess` with information about the delivery like:
 
 - `boxNumber`: it's the box number where the parcel were delivered
 - `citiboxId`: our ID to allow you to link your delivery with our ID
 - `deliveryId`: the ID of the delivery
 
 #### Failure
-When the delivery couldn't be executed for some reason related to the Box or the user, you'll receive an instance of `DeliveryResult.Failure` with the field `type` telling you what went wrong.
+When the delivery couldn't be executed for some reason related to the Box or the user, you'll receive an instance of `DeliveryResultFailure` with the field `code` telling you what went wrong.
 
 #### Failure codes
-|Type|Description|
+|Code|Description|
 |--|--|
 |`parcel_not_available`|  |
 |`max_reopens_exceed`|  |
@@ -70,10 +72,10 @@ When the delivery couldn't be executed for some reason related to the Box or the
 |`any_box_empty`|  |
 
 #### Cancel
-When the delivery couldn't be done because the Courier canceled the delivery for external reasons or reasons related to the box, you'll receive an instance of `DeliveryResult.Cancel` with the field `type` with the code.
+When the delivery couldn't be done because the Courier canceled the delivery on purpose, you'll receive an instance of `DeliveryResultCancel` with the field `code` with the code.
 
 #### Cancel codes
-| Type                 | Description                                                                                                                     |
+| Code                 | Description                                                                                                                     |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------|
 | `not_started`        | The courier didn’t get to scan or input the QR code of the box to start the transaction. Navigation back to the carrier app.    |
 | `cant_open_boxes`    | The courier couldn’t open any of the boxes offered.                                                                             |
@@ -83,10 +85,10 @@ When the delivery couldn't be done because the Courier canceled the delivery for
 | `other`              | The other specified “other” in the cancellation reason form.                                                                    |
 
 #### Error
-When there is an error in the data preventing the delivery, you'll receive an instance of `DeliveryResult.Error` with the field `errorCode` with the code that helps you to identify what is wrong in the data.
+When there is an error in the data preventing the delivery, you'll receive an instance of `DeliveryResultError` with the field `code` with the code that helps you to identify what is wrong in the data.
 
 #### Error codes
-| Error code                        | Description                                                                                                            |
+| Code                              | Description                                                                                                            |
 |-----------------------------------|------------------------------------------------------------------------------------------------------------------------|
 | `tracking_missing`                | The tracking code must be provided                                                                                     |
 | `access_token_missing`            | The access token must be provided                                                                                      |
@@ -103,6 +105,8 @@ When there is an error in the data preventing the delivery, you'll receive an in
 
 ## Examples
 
+There is a working example [here](/Example/CourierSDKTester)
+
 ### SwiftUI
 
 ```swift
@@ -110,36 +114,28 @@ import SwiftUI
 import Courier
 
 struct ContentView: View {
-    var body: some View {
-        NavigationView {
-            VStack {
-                NavigationLink("Launch Courier App") {
-                    CourierView(accessToken: "70K3n", tracking: "7R4CK1N6", recipientPhone: "+34666000111")
-                }
-            }
-            .padding()
-        }
-    }
-}
-
-```
-
-### UIKit
-
-```swift
-import SwiftUI
-import Courier
-
-Class MyViewController: UIViewController {
-    let courierVC = UIHostingController(rootView: CourierView(accessToken: "70K3n", tracking: "7R4CK1N6", recipientPhone: "+34666000111"))
-
-    ...
-
-    func openCourier() {
-        self.navigationController?.pushViewController(courierVC, animated: true)
-    }
+    @ObservedObject var result: DeliveryResultViewModel = .init()
+    @State var showCourierView = false
     
-    ...
+    var deliveryParams = DeliveryParams(
+        accessToken: "accessToken",
+        tracking: "tracking",
+        recipientPhone: "+34600000000"
+    )
+
+    var body: some View {
+        VStack {
+            Button("Deliver 🚀📦") {
+                showCourierView = true
+            }  
+        }
+        .padding(16)
+        .courier(isPresented: $showCourierView, params: deliveryParams, result: result)
+    }
 }
 
 ```
+
+## Documentation
+
+[Here](/Documentation) you can find the docuemntation in DocC format or in html.
