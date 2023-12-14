@@ -138,4 +138,4 @@ struct ContentView: View {
 
 ## Documentation
 
-[Here](/Documentation) you can find the docuemntation in DocC format or in html.
+ [Here](/Documentation) you can find the docuemntation in [DocC](/Documentation/Courier.doccarchive) format or in [html](/Documentation/html/documentation/courier/index.html).

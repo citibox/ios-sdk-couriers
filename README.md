@@ -1,14 +1,6 @@
-# ``Courier SDK``
+# Courier SDK
 
 An iOS SDK to be able to perform deliveries through Citibox.
-
-@Metadata {
-    @PageImage(
-        purpose: icon, 
-        source: "citiLogo", 
-        alt: "The Citibox logo.")
-    @PageColor(purple)
-}
 
 ## Overview
 
