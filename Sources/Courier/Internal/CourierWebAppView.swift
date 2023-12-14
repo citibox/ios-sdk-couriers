@@ -14,6 +14,7 @@ internal struct CourierWebAppView: View {
     private let recipientHash: String?
     private let dimensions: String?
     private let isSandbox: Bool
+    private let debug: Bool
     private let url: String
     private let resultHandler: ((any DeliveryResult)?) -> Void
     
@@ -90,13 +91,14 @@ internal struct CourierWebAppView: View {
         }
     }
     
-    internal init(accessToken: String, tracking: String, recipientPhone: String?, recipientHash: String?, dimensions: String?, isSandbox: Bool, resultHandler: @escaping ((any DeliveryResult)?) -> Void) {
+    internal init(accessToken: String, tracking: String, recipientPhone: String?, recipientHash: String?, dimensions: String?, isSandbox: Bool, debug: Bool, resultHandler: @escaping ((any DeliveryResult)?) -> Void) {
         self.accessToken = accessToken
         self.tracking = tracking
         self.recipientPhone = recipientPhone
         self.recipientHash = recipientHash
         self.dimensions = dimensions
         self.isSandbox = isSandbox
+        self.debug = debug
         self.resultHandler = resultHandler
         
         let host: String = isSandbox ? CourierWebAppView.sandboxURL : CourierWebAppView.prodURL
@@ -111,9 +113,11 @@ internal struct CourierWebAppView: View {
             params += "&" + Pairs.dimensions(dimensions).pair
         }
 
+        let endpoint = debug ? "test-view" : "deeplink-delivery"
 #warning("TESTING")
         //url = "\(host)/deeplink-delivery/?\(params)"
-        url = "http://localhost:8080/deeplink-delivery/?\(params)"
+        url = "http://localhost:8080/\(endpoint)/?\(params)"
+        
     }
     
     var body: some View {
@@ -133,6 +137,7 @@ internal struct CourierWebAppView: View {
 private extension CourierWebAppView {
     static let prodURL = "https://app.courier.citibox.com"
     static let sandboxURL = "https://app.courier.citibox-sandbox.com"
+    static let testURL = "https://app.courier.citibox-sandbox.com/test-view"
 
     var host: String {
         isSandbox ? CourierWebAppView.sandboxURL : CourierWebAppView.prodURL

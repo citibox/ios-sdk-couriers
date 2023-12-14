@@ -25,7 +25,8 @@ internal struct CourierView: View {
             recipientPhone: params.recipientPhone,
             recipientHash: params.recipientHash,
             dimensions: params.dimensions,
-            isSandbox: params.isSandbox
+            isSandbox: params.isSandbox,
+            debug: params.debug
         ) { result in
             resultViewModel.result = result
             isPresented = false

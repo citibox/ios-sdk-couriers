@@ -9,13 +9,14 @@ import SwiftUI
 import Courier
 
 struct ContentView: View {
-    @State var accessToken = "hZ8FtFdwiBFXztnjDeqFfZbf3XRiTp"
+    @State var accessToken = "EEOgAypa5WcoHDQ5dKoutWApGETEJB"
     @State var tracking = ""
     @State var phone = ""
     @State var hashed = false
     @State var height: String = ""
     @State var width: String = ""
     @State var length: String = ""
+    @State var debug = false
     @State var showCourierView = false
     @ObservedObject var result: DeliveryResultViewModel = .init()
 
@@ -33,7 +34,8 @@ struct ContentView: View {
             tracking: tracking,
             recipientHash: phone.sha256(),
             dimensions: dims,
-            sandbox: sandbox
+            sandbox: sandbox,
+            debug: debug
            )
         } else {
             return DeliveryParams(
@@ -41,7 +43,8 @@ struct ContentView: View {
                 tracking: tracking,
                 recipientPhone: phone,
                 dimensions: dims,
-                sandbox: sandbox
+                sandbox: sandbox,
+                debug: debug
             )
         }
     }
@@ -50,9 +53,9 @@ struct ContentView: View {
         NavigationView {
             VStack(alignment: .leading, spacing: 16) {
                 if let res = result.result {
-                    RoundedRectangle(cornerRadius: 10)
+                    /*RoundedRectangle(cornerRadius: 10)
                         .fill(.gray.opacity(0.4))
-                        .overlay(alignment: .leading) {
+                        .overlay(alignment: .leading) {*/
                             VStack(alignment: .leading, spacing: 16) {
                                 VStack(alignment: .leading, spacing: 8) {
                                     Text("Result")
@@ -73,8 +76,13 @@ struct ContentView: View {
                                 }
                                 Spacer()
                             }
+                            .frame(maxWidth: .init())
                             .padding(16)
-                        }
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.gray.opacity(0.4))
+                            )
+                        //}
                 }
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Access token")
@@ -106,6 +114,10 @@ struct ContentView: View {
                             .textFieldStyle(.roundedBorder)
                     }
                 }
+                VStack(alignment: .leading, spacing: 8) {
+                    Toggle("Debug mode", isOn: $debug)
+                        .toggleStyle(CheckboxToggleStyle())
+                }
                 Button("Deliver 🚀📦") {
                     showCourierView = true
                 }
@@ -117,7 +129,7 @@ struct ContentView: View {
                 .clipShape(Capsule())
                 Spacer()                
             }
-            .padding()
+            .padding(16)
             .navigationTitle("Citibox Courier Demo")
             .courier(isPresented: $showCourierView, params: deliveryParams, result: result)
         }
