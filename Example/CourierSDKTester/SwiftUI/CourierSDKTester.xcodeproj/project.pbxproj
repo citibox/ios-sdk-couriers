@@ -34,7 +34,7 @@
 		D43BA9502A570A07003B9E2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D43BA9522A570A07003B9E2C /* CourierSDKTester.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CourierSDKTester.entitlements; sourceTree = "<group>"; };
 		D43BA9542A570A07003B9E2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D4E73E852B2B760000A704B0 /* ios-sdk-couriers */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "ios-sdk-couriers"; path = ../../..; sourceTree = "<group>"; };
+		D4E73E862B2B790D00A704B0 /* ios-sdk-couriers */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "ios-sdk-couriers"; path = ../../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +89,7 @@
 		D43BA95B2A571277003B9E2C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D4E73E852B2B760000A704B0 /* ios-sdk-couriers */,
+				D4E73E862B2B790D00A704B0 /* ios-sdk-couriers */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

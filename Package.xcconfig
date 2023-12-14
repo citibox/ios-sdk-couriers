@@ -1,0 +1,10 @@
+/// Package.xcconfig
+
+/// Platform
+SUPPORTED_PLATFORMS = ios;
+
+/// Swift
+SWIFT_VERSION = 5;
+
+/// Use Info.plist
+OTHER_LDFLAGS[sdk=ios*] = $(inherited) -sectcreate __TEXT __info_plist ./Supporting/Info.plist;
