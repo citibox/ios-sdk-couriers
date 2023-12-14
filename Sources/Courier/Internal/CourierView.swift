@@ -23,7 +23,6 @@ internal struct CourierView: View {
             accessToken: params.accessToken,
             tracking: params.tracking,
             recipientPhone: params.recipientPhone,
-            recipientHash: params.recipientHash,
             dimensions: params.dimensions,
             isSandbox: params.isSandbox,
             debug: params.debug

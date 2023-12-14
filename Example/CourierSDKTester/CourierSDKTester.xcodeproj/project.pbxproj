@@ -12,7 +12,6 @@
 		D43BA9512A570A07003B9E2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D43BA9502A570A07003B9E2C /* Assets.xcassets */; };
 		D43BA9552A570A07003B9E2C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D43BA9542A570A07003B9E2C /* Preview Assets.xcassets */; };
 		D4E73E802B2864B800A704B0 /* Courier in Frameworks */ = {isa = PBXBuildFile; productRef = D4E73E7F2B2864B800A704B0 /* Courier */; };
-		D4E73E832B291F8D00A704B0 /* String+SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E73E822B291F8D00A704B0 /* String+SHA256.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,7 +35,6 @@
 		D43BA9522A570A07003B9E2C /* CourierSDKTester.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CourierSDKTester.entitlements; sourceTree = "<group>"; };
 		D43BA9542A570A07003B9E2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D4E73E812B28659D00A704B0 /* ios-sdk-couriers */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "ios-sdk-couriers"; path = ../..; sourceTree = "<group>"; };
-		D4E73E822B291F8D00A704B0 /* String+SHA256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SHA256.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +74,6 @@
 				D43BA9502A570A07003B9E2C /* Assets.xcassets */,
 				D43BA9522A570A07003B9E2C /* CourierSDKTester.entitlements */,
 				D43BA9532A570A07003B9E2C /* Preview Content */,
-				D4E73E822B291F8D00A704B0 /* String+SHA256.swift */,
 			);
 			path = CourierSDKTester;
 			sourceTree = "<group>";
@@ -175,7 +172,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D43BA94F2A570A05003B9E2C /* ContentView.swift in Sources */,
-				D4E73E832B291F8D00A704B0 /* String+SHA256.swift in Sources */,
 				D43BA94D2A570A05003B9E2C /* CourierSDKTesterApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

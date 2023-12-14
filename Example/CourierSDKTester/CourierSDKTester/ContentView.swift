@@ -9,14 +9,13 @@ import SwiftUI
 import Courier
 
 struct ContentView: View {
-    @State var accessToken = "EEOgAypa5WcoHDQ5dKoutWApGETEJB"
+    @State var accessToken = ""
     @State var tracking = ""
     @State var phone = ""
-    @State var hashed = false
     @State var height: String = ""
     @State var width: String = ""
     @State var length: String = ""
-    @State var debug = false
+    @State var debug = true
     @State var showCourierView = false
     @ObservedObject var result: DeliveryResultViewModel = .init()
 
@@ -28,61 +27,47 @@ struct ContentView: View {
         
         let dims: String? = (height.isEmpty || width.isEmpty || length.isEmpty) ? nil : "\(height)x\(width)x\(length)"
         
-        if hashed {
-           return DeliveryParams(
+        return DeliveryParams(
             accessToken: accessToken,
             tracking: tracking,
-            recipientHash: phone.sha256(),
+            recipientPhone: phone,
             dimensions: dims,
             sandbox: sandbox,
             debug: debug
-           )
-        } else {
-            return DeliveryParams(
-                accessToken: accessToken,
-                tracking: tracking,
-                recipientPhone: phone,
-                dimensions: dims,
-                sandbox: sandbox,
-                debug: debug
-            )
-        }
+        )
     }
     
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 16) {
                 if let res = result.result {
-                    /*RoundedRectangle(cornerRadius: 10)
-                        .fill(.gray.opacity(0.4))
-                        .overlay(alignment: .leading) {*/
-                            VStack(alignment: .leading, spacing: 16) {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Result")
-                                        .font(.title)
-                                    Text(res.title)
-                                        .fontWeight(.bold)
-                                }
-                                if res is DeliveryResultSuccess {
-                                    (res as! DeliveryResultSuccess).view
-                                } else if res is DeliveryResultCancel {
-                                    (res as! DeliveryResultCancel).view
-                                } else if res is DeliveryResultError {
-                                    (res as! DeliveryResultError).view
-                                } else if res is DeliveryResultFailure {
-                                    (res as! DeliveryResultFailure).view
-                                } else {
-                                    EmptyView()
-                                }
-                                Spacer()
-                            }
-                            .frame(maxWidth: .init())
-                            .padding(16)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(.gray.opacity(0.4))
-                            )
-                        //}
+                    VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Result")
+                                .font(.title)
+                            Text(res.title)
+                                .fontWeight(.bold)
+                        }
+                        if res is DeliveryResultSuccess {
+                            (res as! DeliveryResultSuccess).view
+                        } else if res is DeliveryResultCancel {
+                            (res as! DeliveryResultCancel).view
+                        } else if res is DeliveryResultError {
+                            (res as! DeliveryResultError).view
+                        } else if res is DeliveryResultFailure {
+                            (res as! DeliveryResultFailure).view
+                        } else {
+                            EmptyView()
+                        }
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(.gray.opacity(0.4)),
+                        alignment: .leading
+                    )
                 }
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Access token")
@@ -98,8 +83,6 @@ struct ContentView: View {
                     Text("Phone")
                     TextField("Phone", text: $phone)
                         .textFieldStyle(.roundedBorder)
-                    Toggle("Hashed", isOn: $hashed)
-                        .toggleStyle(CheckboxToggleStyle())
                 }
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Dimensions")

@@ -11,7 +11,6 @@ internal struct CourierWebAppView: View {
     private let accessToken: String
     private let tracking: String
     private let recipientPhone: String?
-    private let recipientHash: String?
     private let dimensions: String?
     private let isSandbox: Bool
     private let debug: Bool
@@ -22,7 +21,6 @@ internal struct CourierWebAppView: View {
         case access_token
         case tracking
         case recipient_phone
-        case recipient_hash
         case dimensions
     }
     
@@ -30,7 +28,6 @@ internal struct CourierWebAppView: View {
         case accessToken(String)
         case tracking(String)
         case phone(String)
-        case hash(String)
         case dimensions(String)
         
         var pair: String {
@@ -41,8 +38,6 @@ internal struct CourierWebAppView: View {
                 return param(key: Params.tracking.rawValue, value: value.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? "InvalidTracking")
             case .phone(let value):
                 return param(key: Params.recipient_phone.rawValue, value: value.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? "InvalidPhone")
-            case .hash(let value):
-                return param(key: Params.recipient_hash.rawValue, value: value)
             case .dimensions(let value):
                 return param(key: Params.dimensions.rawValue, value: value.addingPercentEncoding(withAllowedCharacters: .decimalDigits) ?? "InvalidDimensions")
             }
@@ -91,30 +86,24 @@ internal struct CourierWebAppView: View {
         }
     }
     
-    internal init(accessToken: String, tracking: String, recipientPhone: String?, recipientHash: String?, dimensions: String?, isSandbox: Bool, debug: Bool, resultHandler: @escaping ((any DeliveryResult)?) -> Void) {
+    internal init(accessToken: String, tracking: String, recipientPhone: String, dimensions: String?, isSandbox: Bool, debug: Bool, resultHandler: @escaping ((any DeliveryResult)?) -> Void) {
         self.accessToken = accessToken
         self.tracking = tracking
         self.recipientPhone = recipientPhone
-        self.recipientHash = recipientHash
         self.dimensions = dimensions
         self.isSandbox = isSandbox
         self.debug = debug
         self.resultHandler = resultHandler
         
         let host: String = isSandbox ? CourierWebAppView.sandboxURL : CourierWebAppView.prodURL
-        var params: String = Pairs.accessToken(accessToken).pair + "&" + Pairs.tracking(tracking).pair
-        if let phone = recipientPhone {
-            params += "&" + Pairs.phone(phone).pair
-        }
-        if let hash = recipientHash {
-            params += "&" + Pairs.hash(hash).pair
-        }
+        var params: String = Pairs.accessToken(accessToken).pair + "&" + Pairs.tracking(tracking).pair + "&" + Pairs.phone(recipientPhone).pair
+
         if let dimensions = dimensions {
             params += "&" + Pairs.dimensions(dimensions).pair
         }
 
         let endpoint = debug ? "test-view" : "deeplink-delivery"
-#warning("TESTING")
+#warning("TESTING!!!")
         //url = "\(host)/deeplink-delivery/?\(params)"
         url = "http://localhost:8080/\(endpoint)/?\(params)"
         
