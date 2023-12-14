@@ -109,7 +109,6 @@ internal struct WebView: UIViewRepresentable {
         
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
             guard parent.scriptMessageHandlers.contains(message.name) else { return }
-            print(message.body)
             let scriptMessage = WebViewScriptMessage(handler: message.name, object: message.body)
             parent.receivedMessage?(scriptMessage)
         }

@@ -5,11 +5,25 @@
 //  Created by Marcos Alba on 12/12/23.
 //
 
-import Foundation
 import SwiftUI
 
-public class DeliveryResultViewModel {
-    @Published public var result: DeliveryResult?
+/**
+ Result view model.
+ This objetc is observable so that updates in result are received by subscribers.
+ 
+ - seealso:
+   - `DeliveryResult`
+   - `DeliveryResultSuccess`
+   - `DeliveryResultCancel`
+   - `DeliveryResultError`
+   - `DeliveryResultFailure`
+ */
+public class DeliveryResultViewModel: ObservableObject {
+    @Published public var result: (any DeliveryResult)?
+
+    public init() {
+        
+    }
 }
 
 /**
@@ -21,7 +35,7 @@ public class DeliveryResultViewModel {
  - Cancel --> `DeliveryResultCancel`
  */
 
-public protocol DeliveryResult {
+public protocol DeliveryResult: Codable & Equatable {
     
 }
 
@@ -32,9 +46,21 @@ public protocol DeliveryResult {
  */
 public struct DeliveryResultSuccess: DeliveryResult {
     /// Box number where the package was deposited in the Citibox location
-    public let box_number: Int
+    public let boxNumber: Int
     /// ID for this Citibox transaction
-    public let citibox_id: Int
+    public let citiboxId: Int
+    /// Delivery ID
+    public let deliveryId: String
+    
+    /// Returns a Boolean value indicating whether the given success results are equal.
+    ///
+    /// - parameter lhs: The success result to compare against.
+    /// - parameter rhs: The success result to compare with.
+    public static func == (lhs: DeliveryResultSuccess, rhs: DeliveryResultSuccess) -> Bool {
+        lhs.boxNumber == rhs.boxNumber &&
+        lhs.citiboxId == rhs.citiboxId &&
+        lhs.deliveryId == rhs.deliveryId
+    }
 }
 
 /**
@@ -44,7 +70,15 @@ public struct DeliveryResultSuccess: DeliveryResult {
  */
 public struct DeliveryResultError: DeliveryResult {
     /// Error codes which explains the error opening Courier app.
-    public let error_code: String
+    public let code: String
+    
+    /// Returns a Boolean value indicating whether the given error results are equal.
+    ///
+    /// - parameter lhs: The error result to compare against.
+    /// - parameter rhs: The error result to compare with.
+    public static func == (lhs: DeliveryResultError, rhs: DeliveryResultError) -> Bool {
+        lhs.code == rhs.code
+    }
 }
 
 /**
@@ -54,7 +88,15 @@ public struct DeliveryResultError: DeliveryResult {
  */
 public struct DeliveryResultFailure: DeliveryResult {
     /// The code for the problem that the courier faced.
-    public let failure_code: String
+    public let code: String
+    
+    /// Returns a Boolean value indicating whether the given failure results are equal.
+    ///
+    /// - parameter lhs: The failure result to compare against.
+    /// - parameter rhs: The failure result to compare with.
+    public static func == (lhs: DeliveryResultFailure, rhs: DeliveryResultFailure) -> Bool {
+        lhs.code == rhs.code
+    }
 }
 
 /**
@@ -64,7 +106,15 @@ public struct DeliveryResultFailure: DeliveryResult {
  */
 public struct DeliveryResultCancel: DeliveryResult {
     /// The reason the courier cancelled the transaction with Citibox.
-    public let cancel_code: String
+    public let code: String
+    
+    /// Returns a Boolean value indicating whether the given cancel results are equal.
+    ///
+    /// - parameter lhs: The cancel result to compare against.
+    /// - parameter rhs: The cancel result to compare with.
+    public static func == (lhs: DeliveryResultCancel, rhs: DeliveryResultCancel) -> Bool {
+        lhs.code == rhs.code
+    }
 }
 
 /**

@@ -7,14 +7,18 @@
 
 import SwiftUI
 
-public struct CourierView: View {
+internal struct CourierView: View {
+    @Binding private var isPresented: Bool
     private let params: DeliveryParams
+    private let resultViewModel: DeliveryResultViewModel
     
-    public init(params: DeliveryParams) {
+    internal init(isPresented: Binding<Bool>, params: DeliveryParams, resultViewModel: DeliveryResultViewModel) {
+        self._isPresented = isPresented
         self.params = params
+        self.resultViewModel = resultViewModel
     }
     
-    public var body: some View {
+    internal var body: some View {
         CourierWebAppView(
             accessToken: params.accessToken,
             tracking: params.tracking,
@@ -22,6 +26,9 @@ public struct CourierView: View {
             recipientHash: params.recipientHash,
             dimensions: params.dimensions,
             isSandbox: params.isSandbox
-        )
+        ) { result in
+            resultViewModel.result = result
+            isPresented = false
+        }
     }
 }
