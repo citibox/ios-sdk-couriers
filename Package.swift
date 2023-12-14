@@ -18,7 +18,15 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Courier"
+            name: "Courier",
+            linkerSettings: [
+                .unsafeFlags([
+                    "-Xlinker", "-sectcreate",
+                    "-Xlinker", "__TEXT",
+                    "-Xlinker", "__info_plist",
+                    "-Xlinker", "Supporting/Info.plist"
+                ])
+            ]
         ),
         .testTarget(
             name: "CourierTests",
