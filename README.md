@@ -31,9 +31,9 @@ Then, you need to add the `.courier()` modifier to your main view providing all 
 |------------------|---------|-------------|-------------------------------------------------------------------------------------|  
 | `accessToken`    | String  | Mandatory | Access token provided via oauth for Citibox server to the Carrier server. Important: The carrier app should never contact the citibox server directly.                                              |  
 | `tracking`       | String  | Mandatory | Scanned barcode or QR code of the package to be delivered.                                                     |   
-| `recipientPhone` | String [Format E.164] (https://en.wikipedia.org/wiki/E.164) | Recipient mobile phone number.                                         |  
+| `recipientPhone` | String [Format E.164] (https://en.wikipedia.org/wiki/E.164) | Mandatory | Recipient mobile phone number.                                         |  
 | `dimensions`     | String? | Optional | Package height , width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75                                        |  
-| `bookingId`      | String | Optional | Booking identificator. |
+| `bookingId`      | String? | Optional | Booking identificator. |
 | `isSandbox`      | Bool | Optional | Tells if using sandbox environment. False by default. |
 | `debug`          | Bool | Optional | Shows a different view in order to be able to debug the delivery. Is intended to be used when we face some issue that cannot understand or we want to verify params or UI. False by default. |
 
@@ -134,4 +134,4 @@ struct ContentView: View {
 
 ## Documentation
 
-[Here](/Documentation) you can find the docuemntation in [DocC](/Documentation/Courier.doccarchive) format or in [html](/Documentation/html/documentation/courier/index.html).
+[Here](/Documentation) you can find the documentation in [DocC](/Documentation/Courier.doccarchive) format or in [html](/Documentation/html/documentation/courier/index.html).
