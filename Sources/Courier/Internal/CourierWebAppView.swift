@@ -12,6 +12,7 @@ internal struct CourierWebAppView: View {
     private let tracking: String
     private let recipientPhone: String?
     private let dimensions: String?
+    private let bookingId: String?
     private let isSandbox: Bool
     private let debug: Bool
     private let url: String
@@ -22,6 +23,7 @@ internal struct CourierWebAppView: View {
         case tracking
         case recipient_phone
         case dimensions
+        case booking_id
     }
     
     private enum Pairs {
@@ -29,6 +31,7 @@ internal struct CourierWebAppView: View {
         case tracking(String)
         case phone(String)
         case dimensions(String)
+        case bookingId(String)
         
         var pair: String {
             switch self {
@@ -40,6 +43,8 @@ internal struct CourierWebAppView: View {
                 return param(key: Params.recipient_phone.rawValue, value: value.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? "InvalidPhone")
             case .dimensions(let value):
                 return param(key: Params.dimensions.rawValue, value: value.addingPercentEncoding(withAllowedCharacters: .decimalDigits) ?? "InvalidDimensions")
+            case .bookingId(let value):
+                return param(key: Params.booking_id.rawValue, value: value.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? "InvalidBookingId")
             }
         }
         
@@ -86,27 +91,28 @@ internal struct CourierWebAppView: View {
         }
     }
     
-    internal init(accessToken: String, tracking: String, recipientPhone: String, dimensions: String?, isSandbox: Bool, debug: Bool, resultHandler: @escaping ((any DeliveryResult)?) -> Void) {
+    internal init(accessToken: String, tracking: String, recipientPhone: String, dimensions: String?, bookingId: String? = nil, isSandbox: Bool, debug: Bool, resultHandler: @escaping ((any DeliveryResult)?) -> Void) {
         self.accessToken = accessToken
         self.tracking = tracking
         self.recipientPhone = recipientPhone
         self.dimensions = dimensions
+        self.bookingId = bookingId
         self.isSandbox = isSandbox
         self.debug = debug
         self.resultHandler = resultHandler
         
-        let host: String = isSandbox ? CourierWebAppView.sandboxURL : CourierWebAppView.prodURL
+        let host: String = (isSandbox || debug) ? CourierWebAppView.sandboxURL : CourierWebAppView.prodURL
         var params: String = Pairs.accessToken(accessToken).pair + "&" + Pairs.tracking(tracking).pair + "&" + Pairs.phone(recipientPhone).pair
 
         if let dimensions = dimensions {
             params += "&" + Pairs.dimensions(dimensions).pair
         }
+        if let bookingId = bookingId {
+            params += "&" + Pairs.bookingId(bookingId).pair
+        }
 
         let endpoint = debug ? "test-view" : "deeplink-delivery"
-#warning("TESTING!!!")
-        //url = "\(host)/\(endpoint)/?\(params)"
-        url = "http://localhost:8080/\(endpoint)/?\(params)"
-        
+        url = "\(host)/\(endpoint)/?\(params)"
     }
     
     var body: some View {
@@ -121,16 +127,16 @@ internal struct CourierWebAppView: View {
             }
         )
         .edgesIgnoringSafeArea(.bottom)
-        #else
+        .transition(.opacity)
+    #else
         EmptyView()
-        #endif
+    #endif
     }
 }
 
 private extension CourierWebAppView {
-    static let prodURL = "https://app.courier.citibox.com"
-    static let sandboxURL = "https://app.courier.citibox-sandbox.com"
-    static let testURL = "https://app.courier.citibox-sandbox.com/test-view"
+    static let prodURL = "https://app-courier.citibox.com/"
+    static let sandboxURL = "https://app-courier.citibox-sandbox.com/"
 
     var host: String {
         isSandbox ? CourierWebAppView.sandboxURL : CourierWebAppView.prodURL

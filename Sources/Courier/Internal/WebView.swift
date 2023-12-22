@@ -10,6 +10,7 @@ import SwiftUI
 import Foundation
 import SwiftUI
 import WebKit
+import AVFoundation
 
 #if os(iOS)
 internal struct WebViewScriptMessage {
@@ -54,16 +55,47 @@ internal struct WebView: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> WKWebView {
+                
+        webView.uiDelegate = context.coordinator
+        webView.navigationDelegate = context.coordinator
+        
+        /*if #available(iOS 15.4, *) {
+            webView.configuration.preferences.isElementFullscreenEnabled = false
+        } else {
+            // Fallback on earlier versions
+        }*/
+        
+        for handler in scriptMessageHandlers {
+            webView.configuration.userContentController.add(context.coordinator, name: handler)
+        }
+        
+        /*
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        webView.configuration.websiteDataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+                    records.forEach { record in
+                        webView.configuration.websiteDataStore.removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+                        print("[WebCacheCleaner] Record \(record) deleted")
+                    }
+                }
+        */
+
         if let url = url {
             webView.load(URLRequest(url: url))
         } else if let html = html {
             webView.loadHTMLString(html, baseURL: baseURL)
         }
-
-        webView.navigationDelegate = context.coordinator
-        for handler in scriptMessageHandlers {
-            webView.configuration.userContentController.add(context.coordinator, name: handler)
+        
+        webView.configuration.allowsInlineMediaPlayback = true
+        //webView.configuration.allowsPictureInPictureMediaPlayback = false
+        webView.configuration.allowsAirPlayForMediaPlayback = false
+        
+        if #available(iOS 15.0, *) {
+            webView.setCameraCaptureState(.active)
+            //webView.setMicrophoneCaptureState(.active)
+        } else {
+            // Fallback on earlier versions
         }
+
         return webView
     }
 
@@ -72,7 +104,7 @@ internal struct WebView: UIViewRepresentable {
         // Note that this method will be called A LOT
     }
 
-    class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
+    class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler, WKUIDelegate {
         private let parent: WebView
         private var progressObserver: NSKeyValueObservation?
 
@@ -104,7 +136,19 @@ internal struct WebView: UIViewRepresentable {
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             parent.loadStatusChanged?(false, error)
         }
-
+        
+        /*
+        func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+            guard let serverTrust = challenge.protectionSpace.serverTrust  else {
+                completionHandler(.useCredential, nil)
+                return
+            }
+            let credential = URLCredential(trust: serverTrust)
+            completionHandler(.useCredential, credential)
+            
+        }
+         */
+        
         // MARK: - WKScriptMessageHandler
         
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -112,6 +156,39 @@ internal struct WebView: UIViewRepresentable {
             let scriptMessage = WebViewScriptMessage(handler: message.name, object: message.body)
             parent.receivedMessage?(scriptMessage)
         }
+        
+        // MARK: - WKUIDelegate
+        
+        @available(iOS 15.0, *)
+        func webView(_ webView: WKWebView, requestMediaCapturePermissionFor origin: WKSecurityOrigin, initiatedByFrame frame: WKFrameInfo, type: WKMediaCaptureType, decisionHandler: @escaping (WKPermissionDecision) -> Void) {
+            #warning("Camera usage diabled for now")
+            decisionHandler(.deny)
+            /*switch type {
+            case .camera:
+                AVCaptureDevice.requestAccess(for: .video) { granted in
+                    decisionHandler(granted ? .grant : .deny)
+                }
+            case .microphone:
+                AVCaptureDevice.requestAccess(for: .audio) { granted in
+                    decisionHandler(granted ? .grant : .deny)
+                }
+            case .cameraAndMicrophone:
+                AVCaptureDevice.requestAccess(for: .video) { granted in
+                    if granted {
+                        AVCaptureDevice.requestAccess(for: .audio) { granted in
+                            decisionHandler(granted ? .grant : .deny)
+                        }
+                    } else {
+                        decisionHandler(.deny)
+                    }
+                }
+            @unknown default:
+                decisionHandler(.deny)
+            }*/
+        }
+        
+        
+    
     }
 }
 #endif

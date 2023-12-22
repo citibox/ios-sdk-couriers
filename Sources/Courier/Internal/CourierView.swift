@@ -24,6 +24,7 @@ internal struct CourierView: View {
             tracking: params.tracking,
             recipientPhone: params.recipientPhone,
             dimensions: params.dimensions,
+            bookingId: params.bookingId,
             isSandbox: params.isSandbox,
             debug: params.debug
         ) { result in
