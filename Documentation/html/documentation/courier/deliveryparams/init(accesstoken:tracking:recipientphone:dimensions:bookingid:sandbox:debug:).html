@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     
-    <title>init(accessToken:tracking:recipientPhone:dimensions:sandbox:debug:)| Documentation</title>
+    <title>init(accessToken:tracking:recipientPhone:dimensions:bookingId:sandbox:debug:)| Documentation</title>
     
     <link rel="icon"       href="../../../favicon.ico" />
     <link rel="mask-icon"  href="../../../favicon.svg" color="#333333" />
@@ -43,7 +43,7 @@
             
               <li class="nav-menu-item hierarchy-item">
                 
-                  <span class="current item">init(accessToken:tracking:recipientPhone:dimensions:sandbox:debug:)</span>
+                  <span class="current item">init(accessToken:tracking:recipientPhone:dimensions:bookingId:sandbox:debug:)</span>
                 
                 
               </li>
@@ -58,7 +58,7 @@
 <main id="main" role="main" class="main">
   <div class="topictitle">
   <span class="eyebrow">Initializer</span>
-  <h1 class="title">init(accessToken:tracking:recipientPhone:dimensions:sandbox:debug:)</h1>
+  <h1 class="title">init(accessToken:tracking:recipientPhone:dimensions:bookingId:sandbox:debug:)</h1>
 </div>
 
   <div class="container content-grid">
@@ -74,7 +74,7 @@
     <section id='declaration' class='declaration'>
   <h2>Declaration</h2>
   <div class='declaration-group'>
-    <pre class='source indented'><code><span class='token-keyword'>init</span>(<span class='token-externalParam'>accessToken</span>: String, <span class='token-externalParam'>tracking</span>: String, <span class='token-externalParam'>recipientPhone</span>: String, <span class='token-externalParam'>dimensions</span>: String? = nil, <span class='token-externalParam'>sandbox</span>: Bool = false, <span class='token-externalParam'>debug</span>: Bool = false)</code></pre>
+    <pre class='source indented'><code><span class='token-keyword'>init</span>(<span class='token-externalParam'>accessToken</span>: String, <span class='token-externalParam'>tracking</span>: String, <span class='token-externalParam'>recipientPhone</span>: String, <span class='token-externalParam'>dimensions</span>: String? = nil, <span class='token-externalParam'>bookingId</span>: String? = nil, <span class='token-externalParam'>sandbox</span>: Bool = false, <span class='token-externalParam'>debug</span>: Bool = false)</code></pre>
   </div>
 </section>
 <section id="parameters" class="parameters">
@@ -101,6 +101,11 @@
         <div class="content"><p>Optional. String. Package height, width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75</p></div>
       </dd>
     
+      <dt class="param-name"><code>bookingId</code></dt>
+      <dd class="param-content">
+        <div class="content"><p>Optional. String. Booking identificator.</p></div>
+      </dd>
+    
       <dt class="param-name"><code>sandbox</code></dt>
       <dd class="param-content">
         <div class="content"><p>Optional. Bool. Tells if using sandbox environment. False by default.</p></div>
@@ -108,7 +113,7 @@
     
       <dt class="param-name"><code>debug</code></dt>
       <dd class="param-content">
-        <div class="content"><p>Optional. Bool. Shows a differnet view in order to be able to debug the delivery. Is intended to be used when we face some issue that cannot understand o want to verify, like if we are sending the right parameters. False by default.</p></div>
+        <div class="content"><p>Optional. Bool. Shows a different view in order to be able to debug the delivery. Is intended to be used when we face some issue that cannot understand or we want to verify params or UI. False by default.</p></div>
       </dd>
     
   </dl>
