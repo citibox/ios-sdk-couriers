@@ -27,7 +27,7 @@ public class RetrievalResultViewModel: ObservableObject {
 }
 
 /**
-A representation of a result.
+A representation of a retrieval result.
  
  When retrieval is done, `CourierView` will return a result which type will be one of the next ones, one per each possible scenario
  - Success --> `RetrievalResultSuccess`
@@ -50,13 +50,13 @@ public protocol RetrievalResult: Codable & Equatable {
 /**
  Retrieval result success
  
- The package has been deposited in the box successfully.
+ The package has been retrieved from the box successfully.
  
  - seealso:
    - `RetrievalResult`
  */
 public struct RetrievalResultSuccess: RetrievalResult {
-    /// Box number where the package was deposited in the Citibox location
+    /// Box number where the package was retrieved in the Citibox location
     public let boxNumber: Int
     /// ID for this Citibox transaction
     public let citiboxId: Int
@@ -102,7 +102,7 @@ public struct RetrievalResultError: RetrievalResult {
 /**
  Retrieval result failure
  
- The package hasn’t been deposited in the box because a problem was found.
+ The package hasn’t been retrieved from the box because a problem was found.
  
  Failure codes:
   - `parcel_not_available`: The package couldn’t be in the required state.
@@ -128,7 +128,7 @@ public struct RetrievalResultFailure: RetrievalResult {
 /**
  Retrieval result cancel
  
- The package hasn’t been deposited in the box because the courier cancelled on purpose.
+ The package hasn’t been retrieved from the box because the courier cancelled on purpose.
  
  Cancel codes:
   - `not_started`: The courier didn’t get to scan or input the QR code of the box to start the transaction. Navigation back to the carrier app.

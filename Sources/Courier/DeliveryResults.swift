@@ -27,7 +27,7 @@ public class DeliveryResultViewModel: ObservableObject {
 }
 
 /**
-A representation of a result.
+A representation of a delivery result.
  
  When delivery is done, `CourierView` will return a result which type will be one of the next ones, one per each possible scenario
  - Success --> `DeliveryResultSuccess`
