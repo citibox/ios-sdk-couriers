@@ -9,7 +9,7 @@ import SwiftUI
 import Courier
 
 struct RetrievalView: View {
-    @State var accessToken = "1lGcsizHgtB0y5PKhVbF7pp0lzbDGY"
+    @State var accessToken = "isCqrrpmSsGthjHPfB4zuG4dVR1Pdv"
     @State var citiboxId = ""
     @State var debug = true
     @State var showCourierView = false
@@ -23,7 +23,7 @@ struct RetrievalView: View {
         
         return RetrievalParams(
             accessToken: accessToken,
-            citiboxId: citiboxId,
+            citiboxId: Int(citiboxId) ?? -1,
             sandbox: sandbox,
             debug: debug
         )

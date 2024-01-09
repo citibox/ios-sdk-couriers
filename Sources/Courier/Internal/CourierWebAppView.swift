@@ -91,7 +91,7 @@ internal struct CourierDeliveryWebAppView: View {
 
 internal struct CourierRetrievalWebAppView: View {
     private let accessToken: String
-    private let citiboxId: String
+    private let citiboxId: Int
     private let isSandbox: Bool
     private let debug: Bool
     private let url: String
@@ -127,7 +127,7 @@ internal struct CourierRetrievalWebAppView: View {
         
     }
     
-    internal init(accessToken: String, citiboxId: String, isSandbox: Bool, debug: Bool, resultHandler: @escaping ((any RetrievalResult)?) -> Void) {
+    internal init(accessToken: String, citiboxId: Int, isSandbox: Bool, debug: Bool, resultHandler: @escaping ((any RetrievalResult)?) -> Void) {
         self.accessToken = accessToken
         self.citiboxId = citiboxId
         self.isSandbox = isSandbox
@@ -136,6 +136,7 @@ internal struct CourierRetrievalWebAppView: View {
         
         let params: [Pairs] = [Pairs.accessToken(accessToken), Pairs.citiboxId(citiboxId)]
         url = CourierURL(debug: debug, sandbox: isSandbox).retrievalURL(with: params)
+        print("URL: \(url)")
     }
     
     var body: some View {
@@ -159,14 +160,15 @@ internal struct CourierRetrievalWebAppView: View {
 
 private enum CourierHost: String {
     case prod = "https://app-courier.citibox.com"
-    case sandbox = "https://app-courier.citibox-sandbox.com"
+    #warning("TESTING")
+    case sandbox = "https://carrier-webapp-bqpodfi27q-ew.a.run.app" // "https://app-courier.citibox-sandbox.com"
 }
 
 private enum CourierEndpoint: String {
-    case delivery = "/deeplink-delivery"
-    case retrieval = "/retrieval"
-    case deliveryTest = "/test-view"
-    case retrievalTest = "/test-view¿" // To be done
+    case delivery = "deeplink-delivery"
+    case retrieval = "retrieval"
+    case deliveryTest = "test-view"
+    case retrievalTest = "test/retrieval" // To be done
 }
 
 private enum Params: String {
@@ -184,7 +186,7 @@ private enum Pairs {
     case phone(String)
     case dimensions(String)
     case bookingId(String)
-    case citiboxId(String)
+    case citiboxId(Int)
     
     var pair: String {
         switch self {
@@ -199,7 +201,7 @@ private enum Pairs {
         case .bookingId(let value):
             return param(key: Params.booking_id.rawValue, value: value.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? "InvalidBookingId")
         case .citiboxId(let value):
-            return param(key: Params.citibox_id.rawValue, value: value.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? "InvalidCitiboxId")
+            return param(key: Params.citibox_id.rawValue, value: String(value).addingPercentEncoding(withAllowedCharacters: .decimalDigits) ?? "InvalidCitiboxId")
         }
     }
     
@@ -224,7 +226,7 @@ private struct CourierURL {
         let host = sandbox ? CourierHost.sandbox.rawValue : CourierHost.prod.rawValue
         let params = queryParams.map({ $0.pair }).joined(separator: "&")
         
-        return "\(host)/\(endpoint.rawValue)/?\(params)"
+        return "\(host)/\(endpoint.rawValue)?\(params)"
     }
 }
 
