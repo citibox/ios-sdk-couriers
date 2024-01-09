@@ -5,7 +5,7 @@
 //  Created by Marcos Alba on 12/12/23.
 //
 
-import SwiftUI
+import Foundation
 
 /**
  Parmas needed for delivery
