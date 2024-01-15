@@ -9,7 +9,7 @@ import SwiftUI
 import Courier
 
 struct DeliveryView: View {
-    @State var accessToken = "isCqrrpmSsGthjHPfB4zuG4dVR1Pdv"
+    @State var accessToken = "5Jkwmgz7ev8heW4g95CcHcaF8mrDWy"
     @State var tracking = ""
     @State var phone = ""
     @State var height: String = ""
@@ -156,6 +156,7 @@ extension DeliveryResultSuccess {
         VStack(alignment: .leading, spacing: 8) {
             Text("Box number: \(boxNumber)")
             Text("Citibox ID: \(citiboxId)")
+                .textSelection(.enabled)
             Text("Delivery ID: \(deliveryId)")
         }
     }
