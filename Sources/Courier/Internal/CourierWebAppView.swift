@@ -58,6 +58,8 @@ internal struct CourierDeliveryWebAppView: View {
         self.debug = debug
         self.resultHandler = resultHandler
         
+        let env: CourierWebAppEnvironment = isSandbox ? .sandbox : .prod
+
         var params: [Pairs] = [Pairs.accessToken(accessToken), Pairs.tracking(tracking), Pairs.phone(recipientPhone)]
 
         if let dimensions = dimensions {
@@ -67,7 +69,12 @@ internal struct CourierDeliveryWebAppView: View {
             params += [Pairs.bookingId(bookingId)]
         }
 
-        url = CourierURL(debug: debug, sandbox: isSandbox).deliveryURL(with: params)
+        url = CourierWebAppURL(
+            environment: isSandbox ? .sandbox : .prod,
+            path: .delivery,
+            endpoint: debug ? .test : .location,
+            params: params
+        ).url
     }
     
     var body: some View {
@@ -77,7 +84,6 @@ internal struct CourierDeliveryWebAppView: View {
             scriptMessageHandlers: ScriptMessageHandlers.allCases.map({ $0.rawValue }),
             receivedMessage: { message in
                 guard let messageHandler = ScriptMessageHandlers(rawValue: message.handler) else { return }
-                print("Received Message from handler \(messageHandler.rawValue)\n\(message.object)")
                 resultHandler(messageHandler.deliveryResult(from: message.object))
             }
         )
@@ -135,8 +141,12 @@ internal struct CourierRetrievalWebAppView: View {
         self.resultHandler = resultHandler
         
         let params: [Pairs] = [Pairs.accessToken(accessToken), Pairs.citiboxId(citiboxId)]
-        url = CourierURL(debug: debug, sandbox: isSandbox).retrievalURL(with: params)
-        print("URL: \(url)")
+        url = CourierWebAppURL(
+            environment: isSandbox ? .sandbox : .prod,
+            path: .retrieval,
+            endpoint: debug ? .test : .location,
+            params: params
+        ).url
     }
     
     var body: some View {
@@ -158,17 +168,40 @@ internal struct CourierRetrievalWebAppView: View {
     }
 }
 
-private enum CourierHost: String {
-    case prod = "https://app-courier.citibox.com"
-    #warning("TESTING")
-    case sandbox = "https://carrier-webapp-bqpodfi27q-ew.a.run.app" // "https://app-courier.citibox-sandbox.com"
+private struct CourierWebAppURL {
+    let environment: CourierWebAppEnvironment
+    let path: CourierWebAppPath
+    let endpoint: CourierWebAppEndpoint
+    let params: [Pairs]
+    
+    var url: String {
+        let params = params.map({ $0.pair }).joined(separator: "&")
+        return "\(environment.host)/\(path.rawValue)/\(endpoint.rawValue)?\(params)"
+    }
 }
 
-private enum CourierEndpoint: String {
-    case delivery = "deeplink-delivery"
-    case retrieval = "retrieval"
-    case deliveryTest = "test-view"
-    case retrievalTest = "test/retrieval" // To be done
+private enum CourierWebAppEnvironment {
+    case prod
+    case sandbox
+    
+    var host: String {
+        switch self {
+        case .prod:
+            return "https://shipping.citibox.com"
+        case .sandbox:
+            return "https://shipping.citibox-sandbox.com"
+        }
+    }
+}
+
+private enum CourierWebAppPath: String {
+    case delivery
+    case retrieval
+}
+
+private enum CourierWebAppEndpoint: String {
+    case test
+    case location
 }
 
 private enum Params: String {
@@ -207,26 +240,6 @@ private enum Pairs {
     
     func param(key: String, value: String) -> String {
         "\(key)=\(value)"
-    }
-}
-
-private struct CourierURL {
-    var debug = false
-    var sandbox = false
-    
-    func deliveryURL(with queryParams: [Pairs]) -> String {
-        url(for: debug ? .deliveryTest : .delivery, with: queryParams)
-    }
-    
-    func retrievalURL(with queryParams: [Pairs]) -> String {
-        url(for: debug ? .retrievalTest : .retrieval, with: queryParams)
-    }
-    
-    func url(for endpoint: CourierEndpoint, with queryParams: [Pairs]) -> String {
-        let host = sandbox ? CourierHost.sandbox.rawValue : CourierHost.prod.rawValue
-        let params = queryParams.map({ $0.pair }).joined(separator: "&")
-        
-        return "\(host)/\(endpoint.rawValue)?\(params)"
     }
 }
 

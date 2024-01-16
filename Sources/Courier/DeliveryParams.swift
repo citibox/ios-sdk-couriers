@@ -26,7 +26,7 @@ public struct DeliveryParams {
     ///   - tracking: Mandatory. String. Scanned barcode or QR code of the package to be delivered.
     ///   - recipientPhone: Mandatory. String. Recipient mobile phone number following standard [E.164](https://en.wikipedia.org/wiki/E.164)
     ///   - dimensions: Optional. String. Package height, width and length in millimetres in the following format:{height}x{width}x{length} Ex.: 24x50x75
-    ///   - bookingId: Optional. String. Booking identificator.
+    ///   - bookingId: Optional. String. Booking identificator. Currently not doing anything. Prepared for further release.
     ///   - sandbox: Optional. Bool. Tells if using sandbox environment. False by default.
     ///   - debug: Optional. Bool. Shows a different view in order to be able to debug the delivery. Is intended to be used when we face some issue that cannot understand or we want to verify params or UI. False by default.
     public init(accessToken: String, tracking: String, recipientPhone: String, dimensions: String? = nil, bookingId: String? = nil, sandbox: Bool = false, debug: Bool = false) {
