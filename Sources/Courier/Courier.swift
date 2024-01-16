@@ -9,7 +9,7 @@ import SwiftUI
 
 extension View {
     /**
-     Courier View Modifier
+     Courier View Modifier for a Delivery
      
      Presents Courier View in full screen.
     
@@ -23,6 +23,35 @@ extension View {
        - `DeliveryResultViewModel`
      */
     public func courier(isPresented: Binding<Bool>, params: DeliveryParams, result: DeliveryResultViewModel) -> some View {
+        modifier(
+            FullScreenModifier(
+                isPresented: isPresented,
+                builder: {
+                    CourierView(
+                        isPresented: isPresented,
+                        params: params,
+                        resultViewModel: result
+                    )
+                }
+            )
+        )
+    }
+    
+    /**
+     Courier View Modifier for a Retrieval
+     
+     Presents Courier View in full screen.
+    
+     - parameters:
+       - isPresented: `Binding<Bool>`. Controls wheter view is presented or not. When a result is received it is automatically dismissed.
+       - params: `RetrievalParams`. Required parameters.
+       - result: `RetrievalResultViewModel`. Result received. You can observe this in order to get updates on result.
+     
+     - seealso:
+       - `RetrievalParams`
+       - `RetrievalResultViewModel`
+     */
+    public func courier(isPresented: Binding<Bool>, params: RetrievalParams, result: RetrievalResultViewModel) -> some View {
         modifier(
             FullScreenModifier(
                 isPresented: isPresented,

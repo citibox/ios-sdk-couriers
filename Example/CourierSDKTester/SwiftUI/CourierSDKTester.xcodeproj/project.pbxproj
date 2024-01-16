@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		D43BA94D2A570A05003B9E2C /* CourierSDKTesterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43BA94C2A570A05003B9E2C /* CourierSDKTesterApp.swift */; };
-		D43BA94F2A570A05003B9E2C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43BA94E2A570A05003B9E2C /* ContentView.swift */; };
+		D43BA94F2A570A05003B9E2C /* DeliveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43BA94E2A570A05003B9E2C /* DeliveryView.swift */; };
 		D43BA9512A570A07003B9E2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D43BA9502A570A07003B9E2C /* Assets.xcassets */; };
 		D43BA9552A570A07003B9E2C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D43BA9542A570A07003B9E2C /* Preview Assets.xcassets */; };
+		D45829202B4D8CA30055A228 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D458291F2B4D8CA30055A228 /* ContentView.swift */; };
+		D45829222B4D8D090055A228 /* RetrievalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45829212B4D8D090055A228 /* RetrievalView.swift */; };
+		D45829242B4D8D750055A228 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45829232B4D8D750055A228 /* Checkbox.swift */; };
 		D4E73E802B2864B800A704B0 /* Courier in Frameworks */ = {isa = PBXBuildFile; productRef = D4E73E7F2B2864B800A704B0 /* Courier */; };
 /* End PBXBuildFile section */
 
@@ -30,10 +33,14 @@
 /* Begin PBXFileReference section */
 		D43BA9492A570A05003B9E2C /* CourierSDKTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourierSDKTester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43BA94C2A570A05003B9E2C /* CourierSDKTesterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourierSDKTesterApp.swift; sourceTree = "<group>"; };
-		D43BA94E2A570A05003B9E2C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D43BA94E2A570A05003B9E2C /* DeliveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryView.swift; sourceTree = "<group>"; };
 		D43BA9502A570A07003B9E2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D43BA9522A570A07003B9E2C /* CourierSDKTester.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CourierSDKTester.entitlements; sourceTree = "<group>"; };
 		D43BA9542A570A07003B9E2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D458291E2B4D8C450055A228 /* ios-sdk-couriers */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "ios-sdk-couriers"; path = ../../..; sourceTree = "<group>"; };
+		D458291F2B4D8CA30055A228 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D45829212B4D8D090055A228 /* RetrievalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievalView.swift; sourceTree = "<group>"; };
+		D45829232B4D8D750055A228 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +76,10 @@
 			isa = PBXGroup;
 			children = (
 				D43BA94C2A570A05003B9E2C /* CourierSDKTesterApp.swift */,
-				D43BA94E2A570A05003B9E2C /* ContentView.swift */,
+				D458291F2B4D8CA30055A228 /* ContentView.swift */,
+				D43BA94E2A570A05003B9E2C /* DeliveryView.swift */,
+				D45829212B4D8D090055A228 /* RetrievalView.swift */,
+				D45829232B4D8D750055A228 /* Checkbox.swift */,
 				D43BA9502A570A07003B9E2C /* Assets.xcassets */,
 				D43BA9522A570A07003B9E2C /* CourierSDKTester.entitlements */,
 				D43BA9532A570A07003B9E2C /* Preview Content */,
@@ -88,6 +98,7 @@
 		D43BA95B2A571277003B9E2C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D458291E2B4D8C450055A228 /* ios-sdk-couriers */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -169,8 +180,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D43BA94F2A570A05003B9E2C /* ContentView.swift in Sources */,
+				D43BA94F2A570A05003B9E2C /* DeliveryView.swift in Sources */,
 				D43BA94D2A570A05003B9E2C /* CourierSDKTesterApp.swift in Sources */,
+				D45829202B4D8CA30055A228 /* ContentView.swift in Sources */,
+				D45829222B4D8D090055A228 /* RetrievalView.swift in Sources */,
+				D45829242B4D8D750055A228 /* Checkbox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
