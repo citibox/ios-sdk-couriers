@@ -9,7 +9,7 @@ import SwiftUI
 import Courier
 
 struct DeliveryView: View {
-    @State var accessToken = "5Jkwmgz7ev8heW4g95CcHcaF8mrDWy"
+    @State var accessToken = ""
     @State var tracking = ""
     @State var phone = ""
     @State var height: String = ""
