@@ -57,8 +57,6 @@ internal struct CourierDeliveryWebAppView: View {
         self.isSandbox = isSandbox
         self.debug = debug
         self.resultHandler = resultHandler
-        
-        let env: CourierWebAppEnvironment = isSandbox ? .sandbox : .prod
 
         var params: [Pairs] = [Pairs.accessToken(accessToken), Pairs.tracking(tracking), Pairs.phone(recipientPhone)]
 

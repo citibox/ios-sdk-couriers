@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--📦 Retrieval 🎣-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="RetrievalView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="RetrievalViewController" customModule="CourierSDKTesterUIKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qsS-5C-mb3">
+                                <rect key="frame" x="16" y="59" width="361" height="166"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gD3-de-yUo">
+                                        <rect key="frame" x="16" y="16" width="329" height="22"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLJ-NJ-vNF">
+                                        <rect key="frame" x="16" y="46" width="329" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="166" id="6BW-na-s6P"/>
+                                    <constraint firstAttribute="trailing" secondItem="gD3-de-yUo" secondAttribute="trailing" constant="16" id="7cW-XY-anA"/>
+                                    <constraint firstItem="fLJ-NJ-vNF" firstAttribute="top" secondItem="gD3-de-yUo" secondAttribute="bottom" constant="8" symbolic="YES" id="AeT-pj-Pz3"/>
+                                    <constraint firstItem="fLJ-NJ-vNF" firstAttribute="trailing" secondItem="gD3-de-yUo" secondAttribute="trailing" id="FLb-d0-mlR"/>
+                                    <constraint firstItem="gD3-de-yUo" firstAttribute="leading" secondItem="qsS-5C-mb3" secondAttribute="leading" constant="16" id="pRZ-HV-QEv"/>
+                                    <constraint firstItem="gD3-de-yUo" firstAttribute="top" secondItem="qsS-5C-mb3" secondAttribute="top" constant="16" id="qkh-mG-OJM"/>
+                                    <constraint firstItem="fLJ-NJ-vNF" firstAttribute="leading" secondItem="gD3-de-yUo" secondAttribute="leading" id="yzN-6q-sjS"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accesss token" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="heq-WD-ig8">
+                                <rect key="frame" x="16" y="249" width="361" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GZk-PS-nn8">
+                                <rect key="frame" x="16" y="278" width="361" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Citibox Id" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Kx-yP-s93">
+                                <rect key="frame" x="16" y="320" width="361" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9jB-Mo-c2F">
+                                <rect key="frame" x="16" y="349" width="361" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sbl-ii-Ajl">
+                                <rect key="frame" x="16" y="415" width="361" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Retrieve 🎣📦"/>
+                                <connections>
+                                    <segue destination="1e3-BT-GL5" kind="presentation" destinationCreationSelector="showRetrieval:" id="zhC-8n-Pn3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="5Kx-yP-s93" firstAttribute="trailing" secondItem="qsS-5C-mb3" secondAttribute="trailing" id="3gw-nP-QKY"/>
+                            <constraint firstItem="Sbl-ii-Ajl" firstAttribute="top" secondItem="9jB-Mo-c2F" secondAttribute="bottom" constant="32" id="8AS-hZ-Zif"/>
+                            <constraint firstItem="GZk-PS-nn8" firstAttribute="trailing" secondItem="qsS-5C-mb3" secondAttribute="trailing" id="CaM-EY-w4O"/>
+                            <constraint firstItem="GZk-PS-nn8" firstAttribute="leading" secondItem="qsS-5C-mb3" secondAttribute="leading" id="CnZ-4B-9qa"/>
+                            <constraint firstItem="9jB-Mo-c2F" firstAttribute="top" secondItem="5Kx-yP-s93" secondAttribute="bottom" constant="8" id="Dsw-vv-Hs5"/>
+                            <constraint firstItem="heq-WD-ig8" firstAttribute="top" secondItem="qsS-5C-mb3" secondAttribute="bottom" constant="24" id="EEg-Jc-5jW"/>
+                            <constraint firstItem="qsS-5C-mb3" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="I7g-LR-znG"/>
+                            <constraint firstItem="heq-WD-ig8" firstAttribute="trailing" secondItem="qsS-5C-mb3" secondAttribute="trailing" id="J2o-J6-KBr"/>
+                            <constraint firstItem="GZk-PS-nn8" firstAttribute="top" secondItem="heq-WD-ig8" secondAttribute="bottom" constant="8" id="JWE-8k-NFg"/>
+                            <constraint firstItem="5Kx-yP-s93" firstAttribute="top" secondItem="GZk-PS-nn8" secondAttribute="bottom" constant="8" id="Mac-wp-ep0"/>
+                            <constraint firstItem="5Kx-yP-s93" firstAttribute="leading" secondItem="qsS-5C-mb3" secondAttribute="leading" id="Uza-ab-XsK"/>
+                            <constraint firstItem="Sbl-ii-Ajl" firstAttribute="leading" secondItem="qsS-5C-mb3" secondAttribute="leading" id="eEu-iv-iUz"/>
+                            <constraint firstItem="qsS-5C-mb3" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="eSC-5R-ejL"/>
+                            <constraint firstItem="Sbl-ii-Ajl" firstAttribute="trailing" secondItem="qsS-5C-mb3" secondAttribute="trailing" id="h9g-0Q-kVp"/>
+                            <constraint firstItem="heq-WD-ig8" firstAttribute="leading" secondItem="qsS-5C-mb3" secondAttribute="leading" id="tHP-9D-21e"/>
+                            <constraint firstItem="9jB-Mo-c2F" firstAttribute="trailing" secondItem="qsS-5C-mb3" secondAttribute="trailing" id="wuQ-0N-GOg"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="qsS-5C-mb3" secondAttribute="trailing" constant="16" id="xzw-HI-Iea"/>
+                            <constraint firstItem="9jB-Mo-c2F" firstAttribute="leading" secondItem="qsS-5C-mb3" secondAttribute="leading" id="yEs-iy-E1X"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="📦 Retrieval 🎣" id="E9t-y5-Sgr"/>
+                    <connections>
+                        <outlet property="accessToken" destination="GZk-PS-nn8" id="DwB-84-vJZ"/>
+                        <outlet property="citiboxId" destination="9jB-Mo-c2F" id="PzF-M7-X4B"/>
+                        <outlet property="resultInfo" destination="fLJ-NJ-vNF" id="53A-DU-9xp"/>
+                        <outlet property="resultTitle" destination="gD3-de-yUo" id="Dn1-PH-7Ro"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="135.1145038167939" y="4.9295774647887329"/>
+        </scene>
+        <!--Retrieval View Controller-->
+        <scene sceneID="mFL-Hk-0qP">
+            <objects>
+                <hostingController id="1e3-BT-GL5" customClass="RetrievalViewController" customModule="Courier" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pei-DU-U8b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1102" y="5"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

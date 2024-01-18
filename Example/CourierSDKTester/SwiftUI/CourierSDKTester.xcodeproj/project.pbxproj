@@ -37,7 +37,6 @@
 		D43BA9502A570A07003B9E2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D43BA9522A570A07003B9E2C /* CourierSDKTester.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CourierSDKTester.entitlements; sourceTree = "<group>"; };
 		D43BA9542A570A07003B9E2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D458291E2B4D8C450055A228 /* ios-sdk-couriers */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "ios-sdk-couriers"; path = ../../..; sourceTree = "<group>"; };
 		D458291F2B4D8CA30055A228 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D45829212B4D8D090055A228 /* RetrievalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievalView.swift; sourceTree = "<group>"; };
 		D45829232B4D8D750055A228 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
@@ -98,7 +97,6 @@
 		D43BA95B2A571277003B9E2C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D458291E2B4D8C450055A228 /* ios-sdk-couriers */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -417,7 +415,7 @@
 			repositoryURL = "git@github.com:citibox/ios-sdk-couriers.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
+				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
