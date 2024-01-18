@@ -75,7 +75,7 @@ struct RetrievalView: View {
                     Toggle("Debug mode", isOn: $debug)
                         .toggleStyle(CheckboxToggleStyle())
                 }
-                Button("Retreive 🎣📦") {
+                Button("Retrieve 🎣📦") {
                     showCourierView = true
                 }
                 .frame(height: 56)

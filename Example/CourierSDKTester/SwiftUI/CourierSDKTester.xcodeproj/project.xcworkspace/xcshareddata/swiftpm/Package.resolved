@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "ios-sdk-couriers",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:citibox/ios-sdk-couriers.git",
+      "state" : {
+        "revision" : "07cfac0f169569c1792fe90200c7be192d54691d",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
