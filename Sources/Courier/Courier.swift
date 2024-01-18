@@ -71,10 +71,24 @@ extension View {
 
 // MARK: - UIKit Support
 
+/**
+ Courier View for a Delivery
+ 
+ - seealso:
+   - `DeliveryParams`
+   - `DeliveryResult`
+ */
 public struct DeliveryView: View {
     let params: DeliveryParams
     let result: ((any DeliveryResult)?) -> Void
 
+    /**
+     Initializer.
+
+     - parameters:
+       - params: `DeliveryParams`. Required parameters.
+       - result: `((any DeliveryResult)?) -> Void`. Result received. A callback closure with the result.
+     */
     public init(params: DeliveryParams, result: @escaping ((any DeliveryResult)?) -> Void) {
         self.params = params
         self.result = result
@@ -89,10 +103,24 @@ public struct DeliveryView: View {
     }
 }
 
+/**
+ Courier View for a Retrieval
+ 
+ - seealso:
+   - `RetrievalParams`
+   - `RetrievalResult`
+ */
 public struct RetrievalView: View {
     let params: RetrievalParams
     let result: ((any RetrievalResult)?) -> Void
     
+    /**
+     Initializer.
+
+     - parameters:
+       - params: `RetrievalParams`. Required parameters.
+       - result: `((any RetrievalResult)?) -> Void`. Result received. A callback closure with the result.
+     */
     public init(params: RetrievalParams, result: @escaping ((any RetrievalResult)?) -> Void) {
         self.params = params
         self.result = result

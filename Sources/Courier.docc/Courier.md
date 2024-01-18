@@ -29,10 +29,20 @@ Add this Swift Package to your application in Xcode: `git@github.com:citibox/ios
 
 ## Usage
 
-This framework is developed in `SwiftUI`. The provided functionality comes along with a function extending the `View` protocol.
-Then, you need to add the `.courier()` modifier to your main view providing all required parameters for [delivery](#delivery-entry-params) or [retrieval](#retrieval-entry-parameters) and it will open a `CourierView` in full screen. Once process is done you will be able to receive some callback results for [delivery](#delivery-results) or [retrieval](#retrieval-results). 
+### SwiftUI
 
-### Delivery entry params
+The provided functionality comes along with a function extending the `View` protocol.
+Then, you need to add the `.courier()` modifier to your main view providing all required parameters for [delivery](#delivery-entry-params) or [retrieval](#retrieval-entry-parameters) and it will open a `CourierView` in full screen. Once process is done you will be able to receive some callback results for [delivery](#delivery-results) or [retrieval](#retrieval-results). 
+Check [SwiftUI example](#swiftui-example).
+
+### UIKit
+
+In order to use SwiftUI view in UIKit you need to use A `UIHostingController`.
+It works like any other `UIViewController` just need to pass the SwiftUI view as argument like this `UIHostingController(rootView: DeliveryView())` 
+Then you need to provide all required parameters for [delivery](#delivery-entry-params) or [retrieval](#retrieval-entry-parameters) and it will show a `CourierView`. Once process is done you will be able to receive some callback results for [delivery](#delivery-results) or [retrieval](#retrieval-results). 
+Check [UIKit example](#uikit-example).
+
+## Delivery entry params
 
 | Param            | Type    | Requirement | Description                                                                         |  
 |------------------|---------|-------------|-------------------------------------------------------------------------------------|  
@@ -44,7 +54,7 @@ Then, you need to add the `.courier()` modifier to your main view providing all 
 | `isSandbox`      | Bool | Optional | Tells if using sandbox environment. False by default. |
 | `debug`          | Bool | Optional | Shows a different view in order to be able to debug the delivery. Is intended to be used when we face some issue that cannot understand or we want to verify params or UI. False by default. |
 
-### Delivery results
+## Delivery results
 There are 4 types of results:
 - [Success](#delivery-success)
 - [Failure](#delivery-failure)
@@ -53,17 +63,17 @@ There are 4 types of results:
 
 A result is represented by the protocol `DeliveryResult` which specializes in its own type.
 
-#### Delivery success
+### Delivery success
 When the delivery went well, the result will give you an instance of `DeliveryResultSuccess` with information about the delivery like:
 
 - `boxNumber`: it's the box number where the parcel were delivered
 - `citiboxId`: our ID to allow you to link your delivery with our ID
 - `deliveryId`: the ID of the delivery
 
-#### Delivery failure
+### Delivery failure
 When the delivery couldn't be executed for some reason related to the Box or the user, you'll receive an instance of `DeliveryResultFailure` with the field `code` telling you what went wrong.
 
-##### Failure codes
+#### Failure codes
 |Code|Description|
 |--|--|
 |`parcel_not_available`| The package couldn’t be in the required state. |
@@ -74,10 +84,10 @@ When the delivery couldn't be executed for some reason related to the Box or the
 |`user_autocreation_forbidden`| The user is not registered in Citibox and the carrier doesn’t allow deliveries to non registered users. |
 |`any_box_empty`|  |
 
-#### Delivery cancel
+### Delivery cancel
 When the delivery couldn't be done because the Courier canceled the delivery on purpose, you'll receive an instance of `DeliveryResultCancel` with the field `code` with the code.
 
-##### Cancel codes
+#### Cancel codes
 | Code                 | Description                                                                                                                     |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------|
 | `not_started`        | The courier didn’t get to scan or input the QR code of the box to start the transaction. Navigation back to the carrier app.    |
@@ -87,10 +97,10 @@ When the delivery couldn't be done because the Courier canceled the delivery on 
 | `need_hand_delivery` | The courier sees the need to deliver the package by hand. For example, he may cross with the addressee at the Citibox location. |
 | `other`              | The other specified “other” in the cancellation reason form.                                                                    |
 
-#### Delivery error
+### Delivery error
 When there is an error in the data preventing the delivery, you'll receive an instance of `DeliveryResultError` with the field `code` with the code that helps you to identify what is wrong in the data.
 
-##### Error codes
+#### Error codes
 | Code                              | Description                                                                                                            |
 |-----------------------------------|------------------------------------------------------------------------------------------------------------------------|
 | `tracking_missing`                | The tracking code must be provided                                                                                     |
@@ -106,7 +116,7 @@ When there is an error in the data preventing the delivery, you'll receive an in
 | `data_not_received`               |                                                                                                                        |
 | `launching_problem`               | There were a problem launching the Courier app and the WebView |
 
-### Retrieval entry params
+## Retrieval entry params
 
 | Param            | Type    | Requirement | Description                                                                         |  
 |------------------|---------|-------------|-------------------------------------------------------------------------------------|  
@@ -115,7 +125,7 @@ When there is an error in the data preventing the delivery, you'll receive an in
 | `isSandbox`      | Bool | Optional | Tells if using sandbox environment. False by default. |
 | `debug`          | Bool | Optional | Shows a different view in order to be able to debug the delivery. Is intended to be used when we face some issue that cannot understand or we want to verify params or UI. False by default. |
 
-### Retrieval results
+## Retrieval results
 There are 4 types of results:
 - [Success](#retrieval-success)
 - [Failure](#retrieval-failure)
@@ -124,36 +134,36 @@ There are 4 types of results:
 
 A result is represented by the protocol `DeliveryResult` which specializes in its own type.
 
-#### Retrieval success
+### Retrieval success
 When the retrieval went well, the result will give you an instance of `RetrievalResultSuccess` with information about the retrieval like:
 
 - `boxNumber`: Box number where the package was deposited in the Citibox location.
 - `citiboxId`: ID for this Citibox transaction.
 
-#### Retrieval failure
+### Retrieval failure
 When the delivery couldn't be executed for some reason related to the Box or the user, you'll receive an instance of `DeliveryResultFailure` with the field `code` telling you what went wrong.
 
-##### Failure codes
+#### Failure codes
 |Code|Description|
 |--|--|
 |`parcel_not_available`| The package couldn’t be in the required state. |
 |`max_reopens_exceed`| The tries to open boxes has been exceeded. |
 |`empty_box`| There isn’t a packet into box. |
 
-#### Retrieval cancel
+### Retrieval cancel
 When the delivery couldn't be done because the Courier canceled the delivery on purpose, you'll receive an instance of `DeliveryResultCancel` with the field `code` with the code.
 
-##### Cancel codes
+#### Cancel codes
 | Code                 | Description                                                                                                                     |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------|
 | `not_started`        | The courier didn’t get to scan or input the QR code of the box to start the transaction. Navigation back to the carrier app.    |
 | `cant_open_boxes`    | The courier couldn’t open any of the boxes offered.                                                                             |
 | `other`              | The other specified “other” in the cancellation reason form.                                                                    |
 
-#### Retrieval error
+### Retrieval error
 When there is an error in the data preventing the delivery, you'll receive an instance of `DeliveryResultError` with the field `code` with the code that helps you to identify what is wrong in the data.
 
-##### Error codes
+#### Error codes
 | Code                              | Description                                                                                                            |
 |-----------------------------------|------------------------------------------------------------------------------------------------------------------------|
 | `access_token_missing`            | The access token must be provided                                                                                      |
@@ -167,9 +177,9 @@ When there is an error in the data preventing the delivery, you'll receive an in
 
 ## Examples
 
-There is a working example [here](/Example/CourierSDKTester)
+T### SwiftUI example
 
-### SwiftUI
+There is a working example [here](/Example/CourierSDKTester/SwiftUI)
 
 #### Delivery
 
@@ -226,6 +236,232 @@ struct ContentView: View {
     }
 }
 
+```
+
+### UIKit example
+
+There is a working example [here](/Example/CourierSDKTester/UIKit)
+
+#### Delivery
+
+You need to instantiate a `UIHostingViewController` with `DeliveryView` as `rootView`. You can use this in Storyboards or showing it programatically.
+This example shows how to use it in a Storyboard, you need to add a `UIHostingController` that is shown from a segue which is hooked to the `IBSegueAction`.
+
+```Swift
+import Foundation
+import SwiftUI
+import Courier
+
+class DeliveryViewController: UIViewController {
+    @IBOutlet weak var resultTitle: UILabel!
+    @IBOutlet weak var resultInfo: UILabel!
+    @IBOutlet weak var accessToken: UITextField!
+    @IBOutlet weak var tracking: UITextField!
+    @IBOutlet weak var phone: UITextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    @IBSegueAction func showDelivery(_ coder: NSCoder) -> UIViewController? {
+        let params = DeliveryParams(
+            accessToken: accessToken.text ?? "",
+            tracking: tracking.text ?? "",
+            recipientPhone: phone.text ?? "",
+            sandbox: true,
+            debug: true
+        )
+        let view = DeliveryView(params: params) { result in
+            self.resultTitle.text = result?.title ?? "Result"
+            self.resultInfo.text = result?.info ?? "Info"
+            self.dismiss(animated: true)
+        }
+        
+        let controller = UIHostingController(coder: coder, rootView: view)
+        return controller
+    }
+
+}
+
+extension DeliveryResult {
+    var title: String {
+        if self is DeliveryResultSuccess {
+            return (self as! DeliveryResultSuccess).title
+        } else if self is DeliveryResultCancel {
+            return (self as! DeliveryResultCancel).title
+        } else if self is DeliveryResultError {
+            return (self as! DeliveryResultError).title
+        } else if self is DeliveryResultFailure {
+            return (self as! DeliveryResultFailure).title
+        } else {
+            return "No result"
+        }
+    }
+    
+    var info: String {
+        if self is DeliveryResultSuccess {
+            return (self as! DeliveryResultSuccess).info
+        } else if self is DeliveryResultCancel {
+            return (self as! DeliveryResultCancel).info
+        } else if self is DeliveryResultError {
+            return (self as! DeliveryResultError).info
+        } else if self is DeliveryResultFailure {
+            return (self as! DeliveryResultFailure).info
+        } else {
+            return "No info"
+        }
+    }
+}
+
+extension DeliveryResultSuccess {
+    var title: String {
+        "Success"
+    }
+    
+    var info: String {
+        "Box number: \(boxNumber)\nCitibox ID: \(citiboxId)\nDelivery ID: \(deliveryId)"
+    }
+}
+
+extension DeliveryResultCancel {
+    var title: String {
+        "Cancel"
+    }
+    
+    var info: String {
+        "Cancel code: \(code)"
+    }
+}
+
+extension DeliveryResultError {
+    var title: String {
+        "Error"
+    }
+    
+    var info: String {
+        "Error code: \(code)"
+    }
+}
+
+extension DeliveryResultFailure {
+    var title: String {
+        "Failure"
+    }
+    
+    var info: String {
+        "Failure code: \(code)"
+    }
+}
+
+```
+
+#### Retrieval
+
+You need to instantiate a `UIHostingViewController` with `RetrievalView` as `rootView`. You can use this in Storyboards or showing it programatically.
+This example shows how to use it in a Storyboard, you need to add a `UIHostingController` that is shown from a segue which is hooked to the `IBSegueAction`.
+
+```Swift
+import Foundation
+import SwiftUI
+import Courier
+
+class RetrievalViewController: UIViewController {
+    @IBOutlet weak var resultTitle: UILabel!
+    @IBOutlet weak var resultInfo: UILabel!
+    @IBOutlet weak var accessToken: UITextField!
+    @IBOutlet weak var citiboxId: UITextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    @IBSegueAction func showRetrieval(_ coder: NSCoder) -> UIViewController? {
+        let params = RetrievalParams(
+            accessToken: accessToken.text ?? "",
+            citiboxId: Int(citiboxId.text ?? "") ?? -1,
+            sandbox: true,
+            debug: true
+        )
+        let view = RetrievalView(params: params) { result in
+            self.resultTitle.text = result?.title ?? "Result"
+            self.resultInfo.text = result?.info ?? "Info"
+            self.dismiss(animated: true)
+        }
+        
+        let controller = UIHostingController(coder: coder, rootView: view)
+        return controller
+    }
+}
+
+extension RetrievalResult {
+    var title: String {
+        if self is RetrievalResultSuccess {
+            return (self as! RetrievalResultSuccess).title
+        } else if self is RetrievalResultCancel {
+            return (self as! RetrievalResultCancel).title
+        } else if self is RetrievalResultError {
+            return (self as! RetrievalResultError).title
+        } else if self is RetrievalResultFailure {
+            return (self as! RetrievalResultFailure).title
+        } else {
+            return "No result"
+        }
+    }
+    
+    var info: String {
+        if self is RetrievalResultSuccess {
+            return (self as! RetrievalResultSuccess).info
+        } else if self is RetrievalResultCancel {
+            return (self as! RetrievalResultCancel).info
+        } else if self is RetrievalResultError {
+            return (self as! RetrievalResultError).info
+        } else if self is RetrievalResultFailure {
+            return (self as! RetrievalResultFailure).info
+        } else {
+            return "No info"
+        }
+    }
+}
+
+extension RetrievalResultSuccess {
+    var title: String {
+        "Success"
+    }
+    
+    var info: String {
+        "Box number: \(boxNumber)\nCitibox ID: \(citiboxId)"
+    }
+}
+
+extension RetrievalResultCancel {
+    var title: String {
+        "Cancel"
+    }
+    
+    var info: String {
+        "Cancel code: \(code)"
+    }
+}
+
+extension RetrievalResultError {
+    var title: String {
+        "Error"
+    }
+    
+    var info: String {
+        "Error code: \(code)"
+    }
+}
+
+extension RetrievalResultFailure {
+    var title: String {
+        "Failure"
+    }
+    
+    var info: String {
+        "Failure code: \(code)"
+    }
+}
 ```
 
 ## Documentation
